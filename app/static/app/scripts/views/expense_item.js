@@ -1,7 +1,7 @@
-﻿define(['underscore', 'jquery', 'backbone', 'collections/expense', 'text!templates/expense_item.html'], function (_, $, BB, ExpenseCollection, template) {
+﻿define(['backbone', 'templates/expense_item'], function (BB, template) {
      return BB.View.extend({
-        template: _.template(template),
-        tagName: 'div',
+        template: template,
+        tagName: 'tr',
         className: 'expense_item',
         initialize: function() {
         },

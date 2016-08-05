@@ -14,7 +14,6 @@
                         view.expense_list_view.collection.add(item);
                     });
                     console.log(items);
-                    alert('Success!');
                 },
                 error: function () {
                     alert('Error!');
@@ -24,7 +23,7 @@
 
         },
         render: function () {
-            this.expense_list_view.setElement(this.$el);
+            this.$el.append(this.expense_list_view.$el);
             this.expense_list_view.render();
         }
     });
