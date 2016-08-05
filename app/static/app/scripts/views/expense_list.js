@@ -1,4 +1,4 @@
-﻿define(['jquery', 'backbone', 'views/expense_item', 'text!templates/expense_list.html'], function ($, BB, ExpenseItemView, template_str) {
+﻿define(['backbone', 'views/expense_item', 'text!templates/expense_list.html'], function (BB, ExpenseItemView, template_str) {
      return BB.View.extend({
         tagName: 'table',
         className: 'table',
