@@ -4,7 +4,12 @@
     paths: {
         'jquery': 'libs/jquery.min',
         'backbone': 'libs/backbone.min',
-        'underscore': 'libs/underscore.min'
+        'underscore': 'libs/underscore.min',
+        'views': 'scripts/views',
+        'collections': 'scripts/collections',
+        'models': 'scripts/models',
+        'templates': 'scripts/templates',
+        'text': 'libs/text'
     },
     shim: {
         'backbone': {
@@ -17,5 +22,5 @@
     }
 });
 
-require(['scripts/main']);
+require(['views/main']);
 
