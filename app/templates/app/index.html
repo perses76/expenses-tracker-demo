@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Bootstrap 101 Template</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{% static 'app/libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen">
+        <script>
+            var myapp = {
+                baseUrl: "{% static 'app' %}"
+            }
+        </script>
+        <script data-main="{% static 'app/scripts/app.js' %}" src="{% static 'app/libs/require.js' %}"></script>
+    </head>
+    <body>
+        <div id="app_main">
+
+        </div>
+    </body>
+</html>
