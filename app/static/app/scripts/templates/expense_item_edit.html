@@ -1,0 +1,19 @@
+﻿<form>
+  <div class="form-group">
+    <label for="amount_input">Amount</label>
+    <input type="number" class="form-control" placeholder="Enter Amount" id="amount_input" value="<%= amount %>">
+  </div>
+  <div class="form-group">
+    <label for="description_input">Description</label>
+    <input type="text" class="form-control" id="description_input" placeholder="Enter short description" value="<%= description %>">
+  </div>
+  <div class="form-group">
+    <label for="comment_input">Comment</label>
+    <textarea class="form-control" rows="3" id="comment_input" value="<%= comment %>"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="create_dt_input">Create Date</label>
+    <input type="text" class="form-control" id="create_dt_input" placeholder="Enter transaction date" value="<%= create_dt %>">
+  </div>
+  <button type="submit" class="btn btn-default" id="save_button">Save</button>
+</form>

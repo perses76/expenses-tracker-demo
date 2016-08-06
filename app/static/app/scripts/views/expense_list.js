@@ -12,6 +12,9 @@
             this.$tbody.append(expense_item_view.$el);
             expense_item_view.render();
         },
+        add_item: function (item) {
+            this.collection.add(item);
+        },
         render: function () {
             this.$el.append(this.template);
             this.$tbody = this.$('tbody');
