@@ -5,6 +5,7 @@
         'jquery': 'libs/jquery.min',
         'backbone': 'libs/backbone.min',
         'underscore': 'libs/underscore.min',
+        'bootstrap': 'libs/bootstrap/js/bootstrap.min',
         'views': 'scripts/views',
         'collections': 'scripts/collections',
         'models': 'scripts/models',
@@ -12,6 +13,10 @@
         'text': 'libs/text'
     },
     shim: {
+        'bootstrap': {
+            deps: ['jquery'],
+            exports: null
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
