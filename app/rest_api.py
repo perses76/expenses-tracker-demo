@@ -36,10 +36,11 @@ class ExpenseResource(Resource):
         item.create_dt = parser.parse(data['create_dt'])
         item.save()
         item = Expense.objects.get(id=item.id)
-        items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
-        return HttpResponse(items_json, status=200)
+        item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
+        return HttpResponse(item_json, status=200)
 
     def delete(self, request, id):
-        contact = Contact.objects.get(pk=contact_id)
-        contact.delete()
-        return HttpResponse(status=200)
+        item = Expense.objects.get(pk=id)
+        item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
+        item.delete()
+        return HttpResponse(item_json, status=200)

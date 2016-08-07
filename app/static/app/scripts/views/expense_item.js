@@ -5,6 +5,7 @@
         className: 'expense_item',
         events: {
             'click': 'on_item_click',
+            'click .delete_btn': 'on_delete_click',
         },
         initialize: function() {
             this.model.on('change', this.render, this)
@@ -14,6 +15,10 @@
         },
         on_item_click: function (ev) {
             this.trigger('select_item', this.model);
+        },
+        on_delete_click: function (ev) {
+            this.model.destroy();
+            this.remove();
         },
         on_current_item_change: function (data) {
             var current_item = data.get('current_item');

@@ -94,4 +94,23 @@ class RestApiExpeneseTestCase(TestCase):
         expected_data = data.copy()
         result_data = json.loads(response.content)
 
-        self.assertEqual(result_data, expected_data)
+    def test_edit(self):
+        from django.core.exceptions import ObjectDoesNotExist
+        create_dt = datetime.datetime(2016, 8, 6, 15, 48, 33, tzinfo=UTC())
+        amount = Decimal('20.00')
+        item = Expense(amount=amount, description='des1', comment='com1', create_dt=create_dt)
+        item.save()
+        item = Expense.objects.get(id=item.id)
+
+
+        url = reverse('expense_item', kwargs={'id': item.id})
+        response = self.client.delete(url, content_type='text/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        data = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
+        self.assertEqual(response.content, data)
+
+        try:
+            item = Expense.objects.get(id=item.id)
+            self.fail('Item must not exists')
+        except ObjectDoesNotExist:
+            pass
