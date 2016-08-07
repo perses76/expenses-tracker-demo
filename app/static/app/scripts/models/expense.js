@@ -7,6 +7,6 @@
             create_dt: new Date()
         },
         initialize: function (attrs) {
-        }
+        },
     });
 });
