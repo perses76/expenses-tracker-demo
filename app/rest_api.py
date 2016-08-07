@@ -20,7 +20,7 @@ class ExpenseResource(Resource):
             amount = Decimal(data['amount']),
             description = data['description'],
             comment = data['comment'],
-            create_dt = parser.parse(data['create_dt'])
+            transaction_dt = parser.parse(data['transaction_dt'])
         )
         item.save()
         item = Expense.objects.get(id=item.id)
@@ -33,7 +33,7 @@ class ExpenseResource(Resource):
         item.amount = Decimal(data['amount'])
         item.description = data['description']
         item.comment = data['comment']
-        item.create_dt = parser.parse(data['create_dt'])
+        item.transaction_dt = parser.parse(data['transaction_dt'])
         item.save()
         item = Expense.objects.get(id=item.id)
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)

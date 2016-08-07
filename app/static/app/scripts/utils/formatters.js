@@ -7,6 +7,5 @@
             if (month < 10) month = '0' + month;
             return day + '/' + month + '/' + dt.getFullYear();
         }
-
     }
 });

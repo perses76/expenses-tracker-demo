@@ -4,7 +4,7 @@
         model: Expense,
         parse: function (response, options) {
             _.each(response, function (item) {
-                item.create_dt = new Date(item.create_dt);
+                item.transaction_dt = new Date(item.transaction_dt);
             });
             return response;
         }
