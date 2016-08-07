@@ -16,7 +16,17 @@
             // this.clearErrors();
             // this.readData();
             // if (!this.validateData()) return
+            this.update_model();
             this.trigger('save_item', this.model);
+        },
+        update_model: function () {
+            var data = {
+                amount: parseFloat(this.$('#amount_input').val()),
+                description: this.$('#description_input').val(),
+                comment: this.$('#comment_input').val(),
+                create_dt: new Date(this.$('#create_dt_input').val()),
+            }
+            this.model.set(data);
         },
     });
 })
