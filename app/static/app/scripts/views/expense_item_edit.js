@@ -1,5 +1,5 @@
-﻿define(['underscore', 'backbone', 'text!templates/expense_item_edit.html', 'models/expense'],
-    function (_, BB, template_str, ExpenseModel) {
+﻿define(['underscore', 'backbone', 'text!templates/expense_item_edit.html', 'models/expense', 'utils/formatters'],
+    function (_, BB, template_str, ExpenseModel, formatters) {
     return BB.View.extend({
         events: {
             'submit form': 'on_form_submit'
@@ -9,7 +9,9 @@
             if (this.model == null) this.model = new ExpenseModel();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            data = this.model.toJSON();
+            data['transaction_dt'] = formatters.datetime_to_str(data['transaction_dt']);
+            this.$el.html(this.template(data));
         },
         set_model: function (model) {
             this.model = model;
@@ -28,7 +30,7 @@
                 amount: parseFloat(this.$('#amount_input').val()),
                 description: this.$('#description_input').val(),
                 comment: this.$('#comment_input').val(),
-                transaction_dt: new Date(this.$('#transaction_dt_input').val()),
+                transaction_dt: formatters.parse_datetime(this.$('#transaction_dt_input').val()),
             }
             this.model.set(data);
         },

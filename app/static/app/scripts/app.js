@@ -10,6 +10,7 @@
         'collections': 'scripts/collections',
         'models': 'scripts/models',
         'templates': 'scripts/templates',
+        'utils': 'scripts/utils',
         'text': 'libs/text'
     },
     shim: {

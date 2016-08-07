@@ -28,5 +28,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(insert_expenes_test_data),
     ]
-
-

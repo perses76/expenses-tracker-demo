@@ -1,4 +1,4 @@
-﻿define(['underscore', 'scripts/utils/formatters'], function (_, formatters) {
+﻿define(['underscore', 'utils/formatters'], function (_, formatters) {
     var template = _.template(
 '<td><%= amount %></td>' +
 '<td><%= description %></td>' +

@@ -8,5 +8,10 @@
         },
         initialize: function (attrs) {
         },
+        parse: function (response, options) {
+            var item = response;
+            item.transaction_dt = new Date(item.transaction_dt);
+            return item;
+        },
     });
 });
