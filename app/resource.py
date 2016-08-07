@@ -12,6 +12,5 @@ class Resource(View):
             return super(Resource, self).dispatch(request, *args, **kwargs)
         except Exception as e:
             if not settings.DEBUG:
-                return HttpResponseBadRequest(str(e))
-            else:
                 raise
+            return HttpResponseBadRequest(str(e))

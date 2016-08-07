@@ -11,6 +11,10 @@
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
         },
+        set_model: function (model) {
+            this.model = model;
+            this.render();
+        },
         on_form_submit: function (ev) {
             ev.preventDefault();
             // this.clearErrors();

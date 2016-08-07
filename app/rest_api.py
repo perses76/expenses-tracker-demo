@@ -9,12 +9,12 @@ from .models import Expense
 
 
 class ExpenseResource(Resource):
-    def get(self, request, id=None, **kwargs):
+    def get(self, request, id=None):
         items = [item.to_dict() for item in Expense.objects.all()]
         items_json = json.dumps(items, cls=DjangoJSONEncoder)
         return HttpResponse(items_json, content_type='application/json', status=200)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         data = json.loads(request.body)
         item = Expense(
             amount = Decimal(data['amount']),
@@ -22,6 +22,18 @@ class ExpenseResource(Resource):
             comment = data['comment'],
             create_dt = parser.parse(data['create_dt'])
         )
+        item.save()
+        item = Expense.objects.get(id=item.id)
+        items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
+        return HttpResponse(items_json, status=200)
+
+    def put(self, request, id):
+        data = json.loads(request.body)
+        item = Expense.objects.get(id=id)
+        item.amount = Decimal(data['amount'])
+        item.description = data['description']
+        item.comment = data['comment']
+        item.create_dt = parser.parse(data['create_dt'])
         item.save()
         item = Expense.objects.get(id=item.id)
         items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)

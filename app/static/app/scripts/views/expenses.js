@@ -5,13 +5,19 @@
         initialize: function () {
             this.load_data();
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
+            this.expense_list_view.on('select_item', this.on_select_item, this);
             this.expense_item_edit = new ExpenseItemEdit();
             this.expense_item_edit.on('save_item', this.on_save_item, this);
         },
+        on_select_item: function (model) {
+            this.show_edit_model(model);
+        },
+        show_edit_model: function (model) {
+            this.expense_item_edit.set_model(model);
+        },
         on_save_item: function (model) {
-            alert('You want to save model' + model);
             var view = this;
-            this.expense_list_view.add_item(model);
+            if (model.isNew()) this.expense_list_view.add_item(model);
             model.save([], {
                 success: function (model) {
                     alert('Success saved!');
