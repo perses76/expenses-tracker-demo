@@ -1,5 +1,5 @@
-define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'services/login'],
-    function (app, _, BB, template_str, LoginService) {
+define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'services/auth'],
+    function (app, _, BB, template_str, Auth) {
     return BB.View.extend({
         template: _.template(template_str),
         events: {
@@ -11,11 +11,11 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
         on_form_submit: function (env) {
             env.preventDefault();
             var view = this;
-            var ls = new LoginService();
+            var auth = new Auth();
             var email = this.$('#email_input').val();
             var password = this.$('#password_input').val();
             view.$('#auth_failed_widget').addClass('hidden');
-            ls.login(email, password, {
+            auth.login(email, password, {
                 success: function (user) {
                     alert('Login view: successfully loged in');
                     app.set({ user: user });

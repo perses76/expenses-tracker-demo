@@ -1,13 +1,13 @@
 define(['jquery', 'backbone', 'models/user'],
     function ($, BB, User) {
     return BB.View.extend ({
-        url: 'api/login',
         login: function (email, password, options) {
             alert('Start login process');
             var data = { email: email, password: password },
-                view = this;
+                view = this
+                url='/api/login';
             options = _.extend({ success: function () { }, fail: function () { } }, options);
-            BB.ajax(this.url, {
+            BB.ajax(url, {
                 data: data,
                 method: 'POST',
                 beforeSend: function (xhr) {
@@ -30,6 +30,21 @@ define(['jquery', 'backbone', 'models/user'],
                     alert('Login service Error');
                 }
             });
+        },
+        authenticate: function () {
+            var url = '/api/auth';
+            BB.ajax(url, {
+                data: data,
+                method: 'GET',
+                success: function (data) {
+                    options.success(new User(data.user));
+                    return;
+                },
+                error: function () {
+                    alert('Login service Error');
+                }
+            });
+
         },
         getCookie: function (name) {
             var cookieValue = null;

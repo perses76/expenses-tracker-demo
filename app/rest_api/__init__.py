@@ -1,4 +1,4 @@
 from expense import ExpenseResource
-from login import login
+from auth import login, auth
 
-__all__ = ['ExpenseResource', 'login']
+__all__ = ['ExpenseResource', 'login', 'auth']
