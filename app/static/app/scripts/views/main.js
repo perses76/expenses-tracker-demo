@@ -1,10 +1,18 @@
-﻿define(['underscore', 'jquery', 'backbone', 'views/expenses', 'views/error_message'], function (_, $, BB, ExpensesView, ErrorMessageView) {
+﻿define(['underscore', 'jquery', 'backbone', 'views/expenses', 'views/error_message', 'models/main_view', 'views/login'],
+    function (_, $, BB, ExpensesView, ErrorMessageView, MainViewModel, LoginView) {
     var MainView = BB.View.extend({
         el: $('#app_main'),
         template: _.template('<div id="main_content"></div>'),
+        data: new MainViewModel(),
         initialize: function() {
             BB.ajax = _.bind(this.ajax, this);
             this.expenses_view = new ExpensesView();
+            this.login_view = new LoginView();
+            if (this.data.get('user').is_authenticated()) {
+                this.current_view = this.expenses_view;
+            } else {
+                this.current_view = this.login_view;
+            }
         },
         ajax: function (settings) {
             var original_error = settings.error
@@ -25,8 +33,8 @@
         },
         render: function () {
             this.$el.html(this.template());
-            this.expenses_view.setElement(this.$('#main_content'));
-            this.expenses_view.render();
+            this.current_view.setElement(this.$('#main_content'));
+            this.current_view.render();
         }
     });
     var view = new MainView();
