@@ -31,10 +31,9 @@ define(['jquery', 'backbone', 'models/user'],
                 }
             });
         },
-        authenticate: function () {
+        authenticate: function (options) {
             var url = '/api/auth';
             BB.ajax(url, {
-                data: data,
                 method: 'GET',
                 success: function (data) {
                     options.success(new User(data.user));
