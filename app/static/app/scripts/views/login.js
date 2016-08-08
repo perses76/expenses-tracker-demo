@@ -10,15 +10,19 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
         },
         on_form_submit: function (env) {
             env.preventDefault();
+            var view = this;
             var ls = new LoginService();
-            ls.login('john@smith.com', 'password', {
+            var email = this.$('#email_input').val();
+            var password = this.$('#password_input').val();
+            view.$('#auth_failed_widget').addClass('hidden');
+            ls.login(email, password, {
                 success: function (user) {
                     alert('Login view: successfully loged in');
                     app.set({ user: user });
                     console.log(user);
                 },
-                error: function (status, message) {
-                    alert('Error');
+                fail: function (status, message) {
+                    view.$('#auth_failed_widget').removeClass('hidden');
                 }
             })
         }

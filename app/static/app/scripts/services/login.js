@@ -16,19 +16,18 @@ define(['jquery', 'backbone', 'models/user'],
                     if (token) xhr.setRequestHeader('X-CSRFToken', token);
                 },
                 success: function (data) {
-                    alert('Success from login service');
                     console.log('data=', data)
                     if (data.status == 200) {
                         options.success(new User(data.user));
                         return;
                     }
-                    if (data.status == 404) {
-                        options.fail();
+                    if (data.status == 400) {
+                        options.fail(data.status, data.message);
                         return;
                     }
                 },
                 error: function () {
-                    alert('Error');
+                    alert('Login service Error');
                 }
             });
         },

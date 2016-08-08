@@ -53,6 +53,10 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'app.backends.EmailBackend'
+]
+
 ROOT_URLCONF = 'expenses_tracker.urls'
 
 TEMPLATES = [
