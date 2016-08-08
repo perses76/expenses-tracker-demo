@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import authenticate, login as django_login
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 
 
 def login(request):
@@ -50,4 +50,10 @@ def auth(request):
         }
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json', status=200)
+
+
+def logout(request):
+    django_logout(request)
+    return HttpResponse('{"status": 200}', content_type='application/json', status=200)
+
     

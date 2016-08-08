@@ -45,6 +45,20 @@ define(['jquery', 'backbone', 'models/user'],
             });
 
         },
+        logout: function (options) {
+            var url = '/api/logout';
+            BB.ajax(url, {
+                method: 'GET',
+                success: function () {
+                    options.success();
+                    return;
+                },
+                error: function () {
+                    alert('Logout service Error');
+                }
+            });
+
+        },
         getCookie: function (name) {
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {

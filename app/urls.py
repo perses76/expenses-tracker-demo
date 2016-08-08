@@ -12,6 +12,7 @@ rest_api_url_patterns = [
     #login
     url(r'^login/?$', rest_api.login, name='login'),
     url(r'^auth/?$', rest_api.auth, name='auth'),
+    url(r'^logout/?$', rest_api.logout, name='logout'),
     
 ]
 

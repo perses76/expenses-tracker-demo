@@ -47,6 +47,7 @@
             if (this.data.get('status') == 'data_is_initialized') {
                 if (app.get('user').is_authenticated()) {
                     this.current_view = new ExpensesView();
+                    this.current_view.on('logout', this.logout, this);
                 } else {
                     this.current_view = new LoginView();
                 }
@@ -56,6 +57,18 @@
             } else {
                 this.init_data();
             }
+        },
+        logout: function () {
+            alert('Do logout');
+            var auth = new Auth(),
+                view=this;
+            auth.logout({
+                success: function (user) {
+                    view.data.set({ status: 'zero' });
+                    console.log(app);
+                    app.logout();
+                }
+            });
         },
         init_data: function () {
             var auth = new Auth(),

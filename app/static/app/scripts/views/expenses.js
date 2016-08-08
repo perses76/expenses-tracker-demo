@@ -2,6 +2,13 @@
     function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit) {
      return BB.View.extend({
         template: _.template(template_str),
+        events: {
+            'click #logout_btn': 'on_login_click',
+        },
+        on_login_click: function () {
+            alert('trigger logout');
+            this.trigger('logout');
+        },
         initialize: function () {
             this.load_data();
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
