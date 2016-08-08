@@ -3,15 +3,17 @@
     <head>
         <title>Bootstrap 101 Template</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{csrfToken}}">
         <link href="{% static 'app/libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen">
         <script>
             var myapp = {
                 baseUrl: "{% static 'app' %}"
             }
         </script>
-        <script data-main="{% static 'app/scripts/app.js' %}?t=1" src="{% static 'app/libs/require.js' %}"></script>
+        <script data-main="{% static 'app/scripts/app.js' %}?t=2" src="{% static 'app/libs/require.js' %}"></script>
     </head>
     <body>
+        {% csrf_token %}
         <div id="app_main">
 
         </div>

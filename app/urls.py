@@ -8,6 +8,10 @@ rest_api_url_patterns = [
     # Expense
     url(r'^expenses/?$', rest_api.ExpenseResource.as_view(), name='expense_list'),
     url(r'^expenses/(?P<id>[0-9]?)/?$', rest_api.ExpenseResource.as_view(), name='expense_item'),
+
+    #login
+    url(r'^login/?$', rest_api.login, name='login'),
+    
 ]
 
 

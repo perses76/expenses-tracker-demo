@@ -6,12 +6,13 @@
         'backbone': 'libs/backbone.min',
         'underscore': 'libs/underscore.min',
         'bootstrap': 'libs/bootstrap/js/bootstrap.min',
+        'text': 'libs/text',
         'views': 'scripts/views',
         'collections': 'scripts/collections',
         'models': 'scripts/models',
         'templates': 'scripts/templates',
         'utils': 'scripts/utils',
-        'text': 'libs/text'
+        'services': 'scripts/services',
     },
     shim: {
         'bootstrap': {

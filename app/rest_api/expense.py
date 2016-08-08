@@ -5,7 +5,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from resource import Resource
 from dateutil import parser
 
-from .models import Expense
+from ..models import Expense
 
 
 class ExpenseResource(Resource):
@@ -25,7 +25,7 @@ class ExpenseResource(Resource):
         item.save()
         item = Expense.objects.get(id=item.id)
         items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
-        return HttpResponse(items_json, status=200)
+        return HttpResponse(items_json, status=200, content_type='application/json')
 
     def put(self, request, id):
         data = json.loads(request.body)
@@ -37,10 +37,10 @@ class ExpenseResource(Resource):
         item.save()
         item = Expense.objects.get(id=item.id)
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
-        return HttpResponse(item_json, status=200)
+        return HttpResponse(item_json, status=200, content_type='application/json')
 
     def delete(self, request, id):
         item = Expense.objects.get(pk=id)
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
         item.delete()
-        return HttpResponse(item_json, status=200)
+        return HttpResponse(item_json, status=200, content_type='application/json')

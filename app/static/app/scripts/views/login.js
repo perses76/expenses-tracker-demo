@@ -1,4 +1,5 @@
-define(['underscore', 'backbone', 'text!templates/login.html'], function (_, BB, template_str) {
+define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'services/login'],
+    function (app, _, BB, template_str, LoginService) {
     return BB.View.extend({
         template: _.template(template_str),
         events: {
@@ -9,8 +10,17 @@ define(['underscore', 'backbone', 'text!templates/login.html'], function (_, BB,
         },
         on_form_submit: function (env) {
             env.preventDefault();
-            alert('you want to login');
-
+            var ls = new LoginService();
+            ls.login('john@smith.com', 'password', {
+                success: function (user) {
+                    alert('Login view: successfully loged in');
+                    app.set({ user: user });
+                    console.log(user);
+                },
+                error: function (status, message) {
+                    alert('Error');
+                }
+            })
         }
     });
 })
