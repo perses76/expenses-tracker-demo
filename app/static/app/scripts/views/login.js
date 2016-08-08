@@ -10,10 +10,13 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
         },
         on_form_submit: function (env) {
             env.preventDefault();
+            if (!this.validate_input()) return;
+
             var view = this;
             var auth = new Auth();
             var email = this.$('#email_input').val();
             var password = this.$('#password_input').val();
+
             view.$('#auth_failed_widget').addClass('hidden');
             auth.login(email, password, {
                 success: function (user) {
@@ -25,6 +28,27 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
                     view.$('#auth_failed_widget').removeClass('hidden');
                 }
             })
+        },
+        validate_input: function () {
+            var ctrl, re, result;
+            result = true;
+
+            ctrl = this.$('#email_input');
+            this.$('#email_input_error').addClass('hidden');
+            re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!re.test(ctrl.val())) {
+                this.$('#email_input_error').removeClass('hidden');
+                result = false;
+            }
+
+            ctrl = this.$('#password_input');
+            this.$('#password_input_error').addClass('hidden');
+            re = /[^\s]+/;
+            if (!re.test(ctrl.val())) {
+                this.$('#password_input_error').removeClass('hidden');
+                result = false;
+            }
+            return result
         }
     });
 })

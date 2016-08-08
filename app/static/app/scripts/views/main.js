@@ -65,7 +65,6 @@
             auth.logout({
                 success: function (user) {
                     view.data.set({ status: 'zero' });
-                    console.log(app);
                     app.logout();
                 }
             });

@@ -8,10 +8,20 @@
   <div class="form-group">
     <label for="email_input">Email address</label>
     <input type="email" class="form-control" id="email_input" placeholder="Email">
+    <div class="alert alert-danger hidden" id="email_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span id="email_error_message">Enter a valid email address</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="password_input">Password</label>
     <input type="password" class="form-control" id="password_input" placeholder="Password">
+    <div class="alert alert-danger hidden" id="password_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span id="email_error_message">Please enter password</span>
+    </div>
   </div>
   <div class="alert alert-danger hidden" role="alert" id="auth_failed_widget">Username or password are wrong!</div>
   <button type="submit" class="btn btn-default">Login</button>
