@@ -37,6 +37,7 @@ class UserResource(Resource):
 
     def _update_item(self, item, data):
         item.email = data['email']
+        item.username = data['email']
         item.first_name = data['first_name']
         item.last_name = data['last_name']
         role = data['role']

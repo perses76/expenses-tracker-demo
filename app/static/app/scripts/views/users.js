@@ -10,9 +10,18 @@ define([
     function (_, $, BB, UserListView, UserCollection, template_str, UserItemEditView) {
      return BB.View.extend({
         template: _.template(template_str),
+        events: {
+            'click .add_new_btn': 'on_add_new_click',
+        },
         initialize: function () {
             this.user_list_view = new UserListView({ collection: new UserCollection() });
             this.user_list_view.on('select_item', this.on_select_item, this);
+        },
+        on_add_new_click: function () {
+            var view = new UserItemEditView();
+            view.on('save_item', this.on_save_item, this);
+            this.$el.append(view.$el);
+            view.render();
         },
         on_select_item: function (model) {
             this.show_edit_model(model);
@@ -58,6 +67,7 @@ define([
             this.$el.html(this.template());
             this.$('#user_list').append(this.user_list_view.$el);
             this.user_list_view.render();
+            console.log('btn', this.$('.add_new_btn'));
 
             // this.$('#expense_item_edit').append(this.expense_item_edit.$el);
             // this.expense_item_edit.render();
