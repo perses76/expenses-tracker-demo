@@ -17,6 +17,8 @@
             this.trigger('select_item', this.model);
         },
         on_delete_click: function (ev) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
             this.model.destroy();
             this.remove();
         },

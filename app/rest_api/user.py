@@ -49,7 +49,7 @@ class UserResource(Resource):
             item.is_staff = True
 
     def delete(self, request, id):
-        item = Expense.objects.get(pk=id)
-        item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
+        item = User.objects.get(pk=id)
+        item_json = json.dumps(user_to_dict(item), cls=DjangoJSONEncoder)
         item.delete()
         return HttpResponse(item_json, status=200, content_type='application/json')

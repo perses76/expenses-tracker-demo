@@ -84,3 +84,28 @@ class RestApiUserTestCase(TestCase):
         result_data = json.loads(response.content)
 
         self.assertEqual(result_data, expected_data)
+
+    def test_delete(self):
+        item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)
+        item.save()
+        data = {
+            'id': item.id,
+            'email': 'first@last.com',
+            'first_name': 'First',
+            'last_name': 'Last',
+            'role': 'regular',
+        }
+        url = reverse('rest_api_user_item', kwargs={'id': item.id})
+        response = self.client.delete(url, content_type='text/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+
+        # check if record is saved in DB
+        try:
+            User.objects.get(id=item.id)
+            self.fail('User with id {} should not exist'.format(item.id))
+        except User.DoesNotExist:
+            pass
+        # check that response contain data of new created record
+        expected_data = data.copy()
+        result_data = json.loads(response.content)
+        self.assertEqual(result_data, expected_data)
