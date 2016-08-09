@@ -2,7 +2,7 @@ define(['underscore', 'backbone', 'text!templates/dashboard.html', 'views/expens
     function (_, BB, template_str, ExpensesView, UsersView) {
     return BB.View.extend({
         template: _.template(template_str),
-        state: 'expenses',
+        state: 'users',
         events: {
             'click #logout_btn': 'on_login_click',
             'click #expenses_btn': 'on_expenses_click',

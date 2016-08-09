@@ -5,23 +5,22 @@ define([
     'views/user_list',
     'collections/user',
     'text!templates/users.html',
+    'views/user_item_edit',
     ],
-    function (_, $, BB, UserListView, UserCollection, template_str) {
+    function (_, $, BB, UserListView, UserCollection, template_str, UserItemEditView) {
      return BB.View.extend({
         template: _.template(template_str),
         initialize: function () {
-            // this.load_data();
             this.user_list_view = new UserListView({ collection: new UserCollection() });
             this.user_list_view.on('select_item', this.on_select_item, this);
-            // this.expense_item_edit = new ExpenseItemEdit();
-            // this.expense_item_edit.on('save_item', this.on_save_item, this);
         },
         on_select_item: function (model) {
             this.show_edit_model(model);
         },
         show_edit_model: function (model) {
-            alert('To be implemented');
-            //this.expense_item_edit.set_model(model);
+            var view = new UserItemEditView({ model: model });
+            this.$el.append(view.$el);
+            view.render();
         },
         on_save_item: function (model) {
             var view = this;
