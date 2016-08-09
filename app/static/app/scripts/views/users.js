@@ -34,6 +34,7 @@ define([
         },
         on_save_item: function (model, edit_view) {
             var view = this;
+            model = model.clone();
             if (model.isNew()) {
                 this.user_list_view.add_item(model);
             }
@@ -42,7 +43,9 @@ define([
                     alert('Success saved!');
                     edit_view.remove();
                 },
-                error: function () {
+                error: function (model, response, options) {
+                    edit_view.show_error(response.responseText);
+                    // view.user_list_view.remove(model);
                     alert('error');
                 }
             });

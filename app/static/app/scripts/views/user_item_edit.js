@@ -32,6 +32,7 @@
             this.trigger('save_item', this.model, this);
         },
         validate_data: function () {
+            this.hide_error();
             rules = [
                 { ctrl: '#email_input', msg_ctrl: '#email_input_error', check: 'is_email' },
                 { ctrl: '#first_name_input', msg_ctrl: '#first_name_input_error', check: 'is_required' },
@@ -49,6 +50,13 @@
                 }
             }
             return result;
+        },
+        show_error: function (message) {
+            this.$('#form_error').removeClass('hidden');
+            this.$('#form_error_message').html(message);
+        },
+        hide_error: function () {
+            this.$('#form_error').addClass('hidden');
         },
         update_model: function () {
             var data = {

@@ -14,7 +14,7 @@
         template: _.template('<div id="main_content"></div>'),
         data: new BB.Model({status: 'zero'}),
         initialize: function() {
-            BB.ajax = _.bind(this.ajax, this);
+            // BB.ajax = _.bind(this.ajax, this);
             // this.expenses_view = new ExpensesView();
             // this.login_view = new LoginView();
             app.on('change:user', this.render, this);
