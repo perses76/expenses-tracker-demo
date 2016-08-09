@@ -40,10 +40,42 @@ class RestApiUserTestCase(TestCase):
         # check if record is saved in DB
         item = User.objects.all()[0]
         self.assertEqual(item.email, 'new@test.com')
+        self.assertEqual(item.username, 'new@test.com')
         self.assertEqual(item.first_name, 'First1')
         self.assertEqual(item.last_name, 'Last1')
         self.assertEqual(item.is_superuser, False)
         self.assertEqual(item.is_staff, False)
+        self.assertEqual(item.is_active, True)
+
+        # check that response contain data of new created record
+        expected_data = data.copy()
+        expected_data[u'id'] = item.id
+        result_data = json.loads(response.content)
+
+        self.assertEqual(result_data, expected_data)
+
+    def test_edit(self):
+        item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)
+        item.save()
+        data = {
+            'id': item.id,
+            'email': 'first1@last1.com',
+            'first_name': 'First1',
+            'last_name': 'Last1',
+            'role': 'manager',
+        }
+        url = reverse('rest_api_user_item', kwargs={'id': item.id})
+        response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+
+        # check if record is saved in DB
+        item = User.objects.all()[0]
+        self.assertEqual(item.email, 'first1@last1.com')
+        self.assertEqual(item.username, 'first1@last1.com')
+        self.assertEqual(item.first_name, 'First1')
+        self.assertEqual(item.last_name, 'Last1')
+        self.assertEqual(item.is_superuser, False)
+        self.assertEqual(item.is_staff, True)
         self.assertEqual(item.is_active, True)
 
         # check that response contain data of new created record
