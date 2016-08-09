@@ -19,6 +19,11 @@
         render: function () {
             var data = this.model.toJSON(),
                 view=this;
+            if (this.model.isNew()) {
+                data.title = 'New user';
+            } else {
+                data.title = 'Edit user: ' + this.model.id;
+            }
             this.$el.html(this.template(data));
             this.$('#role_input').val(data.role);
             this.$('.modal').modal('show');
