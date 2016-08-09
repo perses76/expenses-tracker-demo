@@ -4,9 +4,10 @@
     'text!templates/user_item_edit.html',
     'models/user',
     'utils/formatters',
-    'bootstrap'
+    'bootstrap',
+    'utils/input_validator',
     ],
-    function (_, BB, template_str, UserModel, formatters, boostrap) {
+    function (_, BB, template_str, UserModel, formatters, boostrap, validator) {
     return BB.View.extend({
         events: {
             'submit form': 'on_form_submit'
@@ -17,7 +18,6 @@
         },
         render: function () {
             var data = this.model.toJSON();
-            console.log('Edit user:', data);
             this.$el.html(this.template(data));
             this.$('.modal').modal('show');
         },
@@ -27,9 +27,28 @@
         },
         on_form_submit: function (ev) {
             ev.preventDefault();
+            if (!this.validate_data()) return;
             this.update_model();
-            console.log('this=', this);
             this.trigger('save_item', this.model, this);
+        },
+        validate_data: function () {
+            rules = [
+                { ctrl: '#email_input', msg_ctrl: '#email_input_error', check: 'is_email' },
+                { ctrl: '#first_name_input', msg_ctrl: '#first_name_input_error', check: 'is_required' },
+                { ctrl: '#last_name_input', msg_ctrl: '#last_name_input_error', check: 'is_required' },
+            ]
+            var result = validator.validate(rules, this);
+            
+            var password = this.$('#password_input').val();
+            this.$('#password_confirm_input_error').addClass('hidden');
+            if (password != '') {
+                var password_confirm = this.$('#password_confirm_input').val();
+                if (password != password_confirm) {
+                    result = false;
+                    this.$('#password_confirm_input_error').removeClass('hidden');
+                }
+            }
+            return result;
         },
         update_model: function () {
             var data = {
@@ -37,6 +56,11 @@
                 first_name: this.$('#first_name_input').val(),
                 last_name: this.$('#last_name_input').val(),
                 role: this.$('#role_input').val(),
+            }
+            var password = '';
+            password = this.$('#password_input').val();
+            if (password != '') {
+                data['password'] = password;
             }
             this.model.set(data);
         },

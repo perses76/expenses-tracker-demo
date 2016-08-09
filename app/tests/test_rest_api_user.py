@@ -32,6 +32,7 @@ class RestApiUserTestCase(TestCase):
             'first_name': 'First1',
             'last_name': 'Last1',
             'role': 'regular',
+            'password': '12345',
         }
         url = reverse('rest_api_user_item', kwargs={'id': ''})
         response = self.client.post(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -46,16 +47,19 @@ class RestApiUserTestCase(TestCase):
         self.assertEqual(item.is_superuser, False)
         self.assertEqual(item.is_staff, False)
         self.assertEqual(item.is_active, True)
+        self.assertTrue(item.check_password('12345'))
 
         # check that response contain data of new created record
         expected_data = data.copy()
         expected_data[u'id'] = item.id
+        del expected_data['password']
         result_data = json.loads(response.content)
 
         self.assertEqual(result_data, expected_data)
 
     def test_edit(self):
         item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)
+        item.set_password('12345')
         item.save()
         data = {
             'id': item.id,
@@ -67,7 +71,6 @@ class RestApiUserTestCase(TestCase):
         url = reverse('rest_api_user_item', kwargs={'id': item.id})
         response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-
         # check if record is saved in DB
         item = User.objects.all()[0]
         self.assertEqual(item.email, 'first1@last1.com')
@@ -77,6 +80,7 @@ class RestApiUserTestCase(TestCase):
         self.assertEqual(item.is_superuser, False)
         self.assertEqual(item.is_staff, True)
         self.assertEqual(item.is_active, True)
+        self.assertTrue(item.check_password('12345'))
 
         # check that response contain data of new created record
         expected_data = data.copy()
@@ -84,6 +88,25 @@ class RestApiUserTestCase(TestCase):
         result_data = json.loads(response.content)
 
         self.assertEqual(result_data, expected_data)
+
+    def test_edit_with_password(self):
+        item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)
+        item.set_password('12345')
+        item.save()
+        data = {
+            'id': item.id,
+            'email': 'first1@last1.com',
+            'first_name': 'First1',
+            'last_name': 'Last1',
+            'role': 'manager',
+            'password': '54321',
+        }
+        url = reverse('rest_api_user_item', kwargs={'id': item.id})
+        response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # check if record is saved in DB
+        item = User.objects.all()[0]
+        self.assertTrue(item.check_password('54321'))
 
     def test_delete(self):
         item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)

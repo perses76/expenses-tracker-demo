@@ -5,7 +5,7 @@ define(['backbone'], function (BB) {
             email: 'test@test.com',
             first_name: 'first_test',
             last_name: 'last_test',
-            password: 'password',
+            password: null,
             role: 'regular'
         },
         is_authenticated: function () {

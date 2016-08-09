@@ -21,6 +21,7 @@ class UserResource(Resource):
         data = json.loads(request.body)
         item = User()
         self._update_item(item, data)
+        item.set_password(data['password'])
         item.save()
         item = User.objects.get(id=item.id)
         item_json = json.dumps(user_to_dict(item), cls=DjangoJSONEncoder)
@@ -30,6 +31,8 @@ class UserResource(Resource):
         data = json.loads(request.body)
         item = User.objects.get(id=id)
         self._update_item(item, data)
+        if data.get('password'):
+            item.set_password(data['password'])
         item.save()
         item = User.objects.get(id=item.id)
         item_json = json.dumps(user_to_dict(item), cls=DjangoJSONEncoder)

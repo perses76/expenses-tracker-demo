@@ -11,18 +11,46 @@
   <div class="form-group">
     <label for="email_input">E-mail</label>
     <input type="email" class="form-control" placeholder="Enter email" id="email_input" value="<%= email %>">
+    <div class="alert alert-danger hidden" id="email_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Enter a valid email address</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="first_name_input">First name</label>
     <input type="text" class="form-control" placeholder="Enter first name" id="first_name_input" value="<%= first_name %>">
+    <div class="alert alert-danger hidden" id="first_name_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>First name is required</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="last_name_input">Last name</label>
     <input type="text" class="form-control" placeholder="Enter last name" id="last_name_input" value="<%= last_name %>">
+    <div class="alert alert-danger hidden" id="last_name_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Last name is required</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="role_input">Role</label>
     <input type="text" class="form-control" placeholder="Enter first name" id="role_input" value="<%= role %>">
+  </div>
+  <div class="form-group">
+    <label for="passsword_input">Password</label>
+    <input type="password" class="form-control" placeholder="Enter passsword" id="password_input" value="<%= password %>">
+  </div>
+  <div class="form-group">
+    <label for="passsword_confirm_input">Password Confirmation</label>
+    <input type="password" class="form-control" placeholder="Enter passsword" id="password_confirm_input" value="<%= password %>">
+    <div class="alert alert-danger hidden" id="password_confirm_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Password confirmation does not match password</span>
+    </div>
   </div>
 <!-- user edit  form elements end -->
       </div>
