@@ -46,6 +46,11 @@
   <div class="form-group">
     <label for="passsword_input">Password</label>
     <input type="password" class="form-control" placeholder="Enter passsword" id="password_input" value="<%= password %>">
+    <div class="alert alert-danger hidden" id="password_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Password is required for new user</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="passsword_confirm_input">Password Confirmation</label>

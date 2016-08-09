@@ -2,19 +2,19 @@
     'underscore',
     'backbone',
     'text!templates/user_item_edit.html',
-    'models/user',
+    'collections/user',
     'utils/formatters',
     'bootstrap',
     'utils/input_validator',
     ],
-    function (_, BB, template_str, UserModel, formatters, boostrap, validator) {
+    function (_, BB, template_str, UserCollection, formatters, boostrap, validator) {
     return BB.View.extend({
         events: {
             'submit form': 'on_form_submit'
         },
         template: _.template(template_str),
         initialize: function (options) {
-            if (this.model == null) this.model = new UserModel();
+            if (this.model == null) this.model = (new UserCollection()).create_new();
         },
         render: function () {
             var data = this.model.toJSON(),
@@ -37,6 +37,7 @@
         },
         on_form_submit: function (ev) {
             ev.preventDefault();
+            ev.stopPropagation();
             if (!this.validate_data()) return;
             this.update_model();
             this.trigger('save_item', this.model, this);
@@ -48,6 +49,12 @@
                 { ctrl: '#first_name_input', msg_ctrl: '#first_name_input_error', check: 'is_required' },
                 { ctrl: '#last_name_input', msg_ctrl: '#last_name_input_error', check: 'is_required' },
             ]
+
+            if (this.model.isNew()) {
+                rules.push(
+                    { ctrl: '#password_input', msg_ctrl: '#password_input_error', check: 'is_required' }
+                );
+            }
             var result = validator.validate(rules, this);
             
             var password = this.$('#password_input').val();
