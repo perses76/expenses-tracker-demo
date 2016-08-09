@@ -2,15 +2,8 @@
     function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit) {
      return BB.View.extend({
         template: _.template(template_str),
-        events: {
-            'click #logout_btn': 'on_login_click',
-        },
-        on_login_click: function () {
-            alert('trigger logout');
-            this.trigger('logout');
-        },
         initialize: function () {
-            this.load_data();
+            // this.load_data();
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
             this.expense_list_view.on('select_item', this.on_select_item, this);
             this.expense_item_edit = new ExpenseItemEdit();
@@ -61,6 +54,7 @@
 
             this.$('#expense_item_edit').append(this.expense_item_edit.$el);
             this.expense_item_edit.render();
+            this.load_data();
         }
     });
 });

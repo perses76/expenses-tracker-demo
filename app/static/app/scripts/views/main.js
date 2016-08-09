@@ -2,13 +2,13 @@
     'underscore',
     'jquery',
     'backbone',
-    'views/expenses',
+    'views/dashboard',
     'views/error_message',
     'models/app',
     'views/login',
     'services/auth'
     ],
-    function (_, $, BB, ExpensesView, ErrorMessageView, app, LoginView, Auth) {
+    function (_, $, BB, Dashboard, ErrorMessageView, app, LoginView, Auth) {
     var MainView = BB.View.extend({
         el: $('#app_main'),
         template: _.template('<div id="main_content"></div>'),
@@ -17,10 +17,7 @@
             BB.ajax = _.bind(this.ajax, this);
             // this.expenses_view = new ExpensesView();
             // this.login_view = new LoginView();
-            app.on('change:user', this.show_expenses_view, this);
-        },
-        on_user_was_changed: function () {
-            this.show_expenses_view();
+            app.on('change:user', this.render, this);
         },
         ajax: function (settings) {
             var original_error = settings.error
@@ -39,14 +36,11 @@
             this.$el.append(error_message.$el);
             error_message.show(options)
         },
-        show_expenses_view: function  () {
-            this.render();
-        },
         render: function () {
             var view = this;
             if (this.data.get('status') == 'data_is_initialized') {
                 if (app.get('user').is_authenticated()) {
-                    this.current_view = new ExpensesView();
+                    this.current_view = new Dashboard();
                     this.current_view.on('logout', this.logout, this);
                 } else {
                     this.current_view = new LoginView();
