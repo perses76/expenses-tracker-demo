@@ -2,34 +2,38 @@ from decimal import Decimal
 import json
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
-from resource import Resource
+import resource
 from dateutil import parser
 
 from ..models import Expense
 
 
-class ExpenseResource(Resource):
+class ExpenseResource(resource.Resource):
+    @resource.user_authentication_required
     def get(self, request, id=None):
-        items = [item.to_dict() for item in Expense.objects.all()]
+        items = [item.to_dict() for item in Expense.objects.filter(user=request.user)]
         items_json = json.dumps(items, cls=DjangoJSONEncoder)
         return HttpResponse(items_json, content_type='application/json', status=200)
 
+    @resource.user_authentication_required
     def post(self, request):
         data = json.loads(request.body)
         item = Expense(
             amount = Decimal(data['amount']),
             description = data['description'],
             comment = data['comment'],
-            transaction_dt = parser.parse(data['transaction_dt'])
+            transaction_dt = parser.parse(data['transaction_dt']),
+            user=request.user
         )
         item.save()
         item = Expense.objects.get(id=item.id)
         items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
         return HttpResponse(items_json, status=200, content_type='application/json')
 
+    @resource.user_authentication_required
     def put(self, request, id):
         data = json.loads(request.body)
-        item = Expense.objects.get(id=id)
+        item = Expense.objects.get(id=id, user=request.user)
         item.amount = Decimal(data['amount'])
         item.description = data['description']
         item.comment = data['comment']
@@ -39,6 +43,7 @@ class ExpenseResource(Resource):
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
         return HttpResponse(item_json, status=200, content_type='application/json')
 
+    @resource.user_authentication_required
     def delete(self, request, id):
         item = Expense.objects.get(pk=id)
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
