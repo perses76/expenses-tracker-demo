@@ -18,10 +18,8 @@
         on_save_item: function (model) {
             var view = this;
             if (model.isNew()) {
-                console.log('Before add to  collection!!');
                 this.expense_list_view.add_item(model);
             }
-            console.log('Before save');
             model.save([], {
                 success: function (model) {
                     alert('Success saved!');

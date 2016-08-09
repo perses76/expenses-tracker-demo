@@ -1,4 +1,4 @@
-﻿define(['backbone', 'views/expense_item', 'text!templates/expense_list.html'], function (BB, ExpenseItemView, template_str) {
+﻿define(['backbone', 'views/user_item', 'text!templates/user_list.html'], function (BB, UserItemView, template_str) {
      return BB.View.extend({
         tagName: 'table',
         className: 'table',
@@ -8,11 +8,11 @@
             this.collection.on('add', this.on_item_added, this);
         },
         on_item_added: function (item) {
-            var expense_item_view = new ExpenseItemView({ model: item });
-            expense_item_view.on('select_item', this.on_select_item, this);
-            this.data.on('change:current_item', expense_item_view.on_current_item_change, expense_item_view);
-            this.$tbody.append(expense_item_view.$el);
-            expense_item_view.render();
+            var user_item_view = new UserItemView({ model: item });
+            user_item_view.on('select_item', this.on_select_item, this);
+            this.data.on('change:current_item', user_item_view.on_current_item_change, user_item_view);
+            this.$tbody.append(user_item_view.$el);
+            user_item_view.render();
         },
         add_item: function (item) {
             this.collection.add(item);
