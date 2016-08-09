@@ -33,20 +33,22 @@ define([
             view.render();
         },
         on_save_item: function (model, edit_view) {
-            var view = this;
-            model = model.clone();
+            var view = this,
+                save_method;
+            save_method = function (options) { model.save([], options) };
             if (model.isNew()) {
-                this.user_list_view.add_item(model);
+                save_method = function (options) {
+                    options = _.extend(options, { wait: true });
+                    view.user_list_view.collection.create(model, options)
+                };
             }
-            model.save([], {
-                success: function (model, view) {
+            save_method({
+                success: function (model) {
                     alert('Success saved!');
                     edit_view.remove();
                 },
                 error: function (model, response, options) {
                     edit_view.show_error(response.responseText);
-                    // view.user_list_view.remove(model);
-                    alert('error');
                 }
             });
         },

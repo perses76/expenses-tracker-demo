@@ -17,9 +17,14 @@
             if (this.model == null) this.model = new UserModel();
         },
         render: function () {
-            var data = this.model.toJSON();
+            var data = this.model.toJSON(),
+                view=this;
             this.$el.html(this.template(data));
+            this.$('#role_input').val(data.role);
             this.$('.modal').modal('show');
+            this.$('.modal').on('hide.bs.modal', function () {
+                Backbone.View.prototype.remove.apply(view, arguments);
+            });
         },
         set_model: function (model) {
             this.model = model;
@@ -73,10 +78,6 @@
             this.model.set(data);
         },
         remove: function () {
-            var view = this;
-            this.$('.modal').on('hide.bs.modal', function () {
-                Backbone.View.prototype.remove.apply(view, arguments);
-            });
             this.$('.modal').modal('hide');
         }
     });

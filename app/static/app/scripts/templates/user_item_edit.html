@@ -37,7 +37,11 @@
   </div>
   <div class="form-group">
     <label for="role_input">Role</label>
-    <input type="text" class="form-control" placeholder="Enter first name" id="role_input" value="<%= role %>">
+    <select class="form-control" id="role_input">
+      <option value="regular">Regular</option>
+      <option value="manager">Manager</option>
+      <option value="admin">Admin</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="passsword_input">Password</label>
