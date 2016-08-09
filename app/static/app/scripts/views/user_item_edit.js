@@ -28,16 +28,24 @@
         on_form_submit: function (ev) {
             ev.preventDefault();
             this.update_model();
-            this.trigger('save_item', this.model);
+            console.log('this=', this);
+            this.trigger('save_item', this.model, this);
         },
         update_model: function () {
             var data = {
-                amount: parseFloat(this.$('#amount_input').val()),
-                description: this.$('#description_input').val(),
-                comment: this.$('#comment_input').val(),
-                transaction_dt: formatters.parse_datetime(this.$('#transaction_dt_input').val()),
+                email: this.$('#email_input').val(),
+                first_name: this.$('#first_name_input').val(),
+                last_name: this.$('#last_name_input').val(),
+                role: this.$('#role_input').val(),
             }
             this.model.set(data);
         },
+        remove: function () {
+            var view = this;
+            this.$('.modal').on('hide.bs.modal', function () {
+                Backbone.View.prototype.remove.apply(view, arguments);
+            });
+            this.$('.modal').modal('hide');
+        }
     });
 })

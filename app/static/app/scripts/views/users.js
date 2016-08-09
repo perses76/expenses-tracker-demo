@@ -19,17 +19,19 @@ define([
         },
         show_edit_model: function (model) {
             var view = new UserItemEditView({ model: model });
+            view.on('save_item', this.on_save_item, this);
             this.$el.append(view.$el);
             view.render();
         },
-        on_save_item: function (model) {
+        on_save_item: function (model, edit_view) {
             var view = this;
             if (model.isNew()) {
                 this.user_list_view.add_item(model);
             }
             model.save([], {
-                success: function (model) {
+                success: function (model, view) {
                     alert('Success saved!');
+                    edit_view.remove();
                 },
                 error: function () {
                     alert('error');
