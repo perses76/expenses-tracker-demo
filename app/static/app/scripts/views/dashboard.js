@@ -1,8 +1,15 @@
-define(['underscore', 'backbone', 'text!templates/dashboard.html', 'views/expenses', 'views/users'],
-    function (_, BB, template_str, ExpensesView, UsersView) {
+define([
+        'underscore',
+        'backbone',
+        'text!templates/dashboard.html',
+        'views/expenses',
+        'views/users',
+        'models/app'
+    ],
+    function (_, BB, template_str, ExpensesView, UsersView, app) {
     return BB.View.extend({
         template: _.template(template_str),
-        state: 'users',
+        state: 'expenses',
         events: {
             'click #logout_btn': 'on_login_click',
             'click #expenses_btn': 'on_expenses_click',
@@ -21,7 +28,7 @@ define(['underscore', 'backbone', 'text!templates/dashboard.html', 'views/expens
         },
         render: function () {
             var content_view;
-            this.$el.html(this.template());
+            this.$el.html(this.template({ user: app.get('user').toJSON() }));
             if (this.state == 'expenses') {
                 content_view = new ExpensesView();
             } else {

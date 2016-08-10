@@ -1,6 +1,9 @@
 <div>
     <button type="button" id="logout_btn">Logout</button>
     <button type="button" id="expenses_btn">Expenses</button>
+    <% if (user.role != 'regular') { %>
     <button type="button" id="users_btn">Users</button>
+    <% } %>
+    <h1>User <%= user.email %>, role= <%= user.role %></h1>
 </div>
 <div id="dashboard_content"></div>

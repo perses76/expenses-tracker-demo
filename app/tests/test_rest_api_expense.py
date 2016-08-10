@@ -6,17 +6,35 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from app.models import Expense
 from app.utils import UTC
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class RestApiExpeneseTestCase(TestCase):
 
     def setUp(self):
         Expense.objects.all().delete()
+        User.objects.all().delete()
+        self.user = User(
+            first_name='First', last_name='last', email='first@last.com',
+            is_active=True, is_superuser=False, is_staff=False, username='regular'
+        )
+        self.user.set_password('12345')
+        self.user.save()
+
+        data = {'email': 'first@last.com', 'password': '12345'}
+        url = reverse('login')
+        self.client.post(url, data=data)
 
     def test_get_all(self):
         transaction_dt = datetime.datetime(2016, 8, 6, 15, 48, 33, tzinfo=UTC())
         amount = Decimal('20.00')
-        item = Expense(amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt)
+        item = Expense(
+            amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt,
+            user=self.user
+        )
         item.save()
         item = Expense.objects.get(id=item.id)
 
@@ -55,7 +73,10 @@ class RestApiExpeneseTestCase(TestCase):
     def test_edit(self):
         transaction_dt = datetime.datetime(2016, 8, 6, 15, 48, 33, tzinfo=UTC())
         amount = Decimal('20.00')
-        item = Expense(amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt)
+        item = Expense(
+            amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt,
+            user=self.user
+        )
         item.save()
         item = Expense.objects.get(id=item.id)
 
@@ -83,11 +104,14 @@ class RestApiExpeneseTestCase(TestCase):
         expected_data = data.copy()
         result_data = json.loads(response.content)
 
-    def test_edit(self):
+    def test_delete(self):
         from django.core.exceptions import ObjectDoesNotExist
         transaction_dt = datetime.datetime(2016, 8, 6, 15, 48, 33, tzinfo=UTC())
         amount = Decimal('20.00')
-        item = Expense(amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt)
+        item = Expense(
+            amount=amount, description='des1', comment='com1', transaction_dt=transaction_dt,
+            user=self.user
+        )
         item.save()
         item = Expense.objects.get(id=item.id)
 

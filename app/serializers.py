@@ -1,3 +1,6 @@
+from utils import get_user_role
+
+
 def user_to_dict(user):
     return {
         'id': user.id,
@@ -6,13 +9,3 @@ def user_to_dict(user):
         'last_name': user.last_name,
         'role': get_user_role(user),
     }
-
-
-def get_user_role(user):
-    if user.is_superuser:
-        return 'admin'
-
-    if user.is_staff:
-        return 'manager'
-
-    return 'regular'

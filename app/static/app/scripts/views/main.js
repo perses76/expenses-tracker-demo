@@ -53,7 +53,6 @@
             }
         },
         logout: function () {
-            alert('Do logout');
             var auth = new Auth(),
                 view=this;
             auth.logout({

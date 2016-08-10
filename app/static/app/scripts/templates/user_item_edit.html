@@ -35,6 +35,7 @@
         <span>Last name is required</span>
     </div>
   </div>
+  <% if (user.role == 'admin') { %>
   <div class="form-group">
     <label for="role_input">Role</label>
     <select class="form-control" id="role_input">
@@ -43,6 +44,7 @@
       <option value="admin">Admin</option>
     </select>
   </div>
+  <% } %>
   <div class="form-group">
     <label for="passsword_input">Password</label>
     <input type="password" class="form-control" placeholder="Enter passsword" id="password_input" value="<%= password %>">

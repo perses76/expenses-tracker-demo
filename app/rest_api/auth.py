@@ -2,6 +2,7 @@ import json
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from app.serializers import user_to_dict
 
 
 def login(request):
@@ -15,12 +16,7 @@ def login(request):
 
     data = {
         'status': 200,
-        'user': {
-            'id': user.id,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email
-        }
+        'user': user_to_dict(user),
     }
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json', status=200)
@@ -31,21 +27,17 @@ def auth(request):
     if user.is_authenticated():
         data = {
             'status': 200,
-            'user': {
-                'id': user.id,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email': user.email
-            }
+            'user': user_to_dict(user),
         }
     else:
         data = {
             'status': 200,
             'user': {
-                'id': user.id,
+                'id': None,
                 'first_name': None,
                 'last_name': None,
-                'email': None
+                'email': None,
+                'role': 'anonymous'
             }
         }
     data_json = json.dumps(data)

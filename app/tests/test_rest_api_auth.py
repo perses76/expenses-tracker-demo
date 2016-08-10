@@ -28,7 +28,8 @@ class RestApiAuthTestCase(TestCase):
                 u'id': user.id,
                 u'first_name': u'John',
                 u'last_name': u'Smith',
-                u'email': u'john@smith.com'
+                u'email': u'john@smith.com',
+                u'role': 'regular',
             }
         }
         self.assertEqual(response_data, expected_data)
@@ -47,7 +48,8 @@ class RestApiAuthTestCase(TestCase):
                 u'id': None,
                 u'first_name': None,
                 u'last_name': None,
-                u'email': None
+                u'email': None,
+                u'role': 'anonymous',
             }
         }
         self.assertEqual(response_data, expected_data)

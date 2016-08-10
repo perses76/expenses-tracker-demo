@@ -7,11 +7,11 @@ import rest_api
 rest_api_url_patterns = [
     # Expense
     url(r'^expenses/?$', rest_api.ExpenseResource.as_view(), name='expense_list'),
-    url(r'^expenses/(?P<id>[0-9]?)/?$', rest_api.ExpenseResource.as_view(), name='expense_item'),
+    url(r'^expenses/(?P<id>[0-9]*)/?$', rest_api.ExpenseResource.as_view(), name='expense_item'),
 
     # User
     url(r'^users/?$', rest_api.UserResource.as_view(), name='rest_api_user_list'),
-    url(r'^users/(?P<id>[0-9]?)/?$', rest_api.UserResource.as_view(), name='rest_api_user_item'),
+    url(r'^users/(?P<id>[0-9]*)/?$', rest_api.UserResource.as_view(), name='rest_api_user_item'),
 
     #Authentication
     url(r'^login/?$', rest_api.login, name='login'),

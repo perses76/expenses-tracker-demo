@@ -28,7 +28,8 @@ class RestApiLoginTestCase(TestCase):
                 u'id': user.id,
                 u'first_name': u'John',
                 u'last_name': u'Smith',
-                u'email': u'john@smith.com'
+                u'email': u'john@smith.com',
+                u'role': u'regular',
             }
         }
         self.assertEqual(response_data, expected_data)

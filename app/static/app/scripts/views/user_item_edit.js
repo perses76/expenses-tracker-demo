@@ -6,8 +6,9 @@
     'utils/formatters',
     'bootstrap',
     'utils/input_validator',
+    'models/app',
     ],
-    function (_, BB, template_str, UserCollection, formatters, boostrap, validator) {
+    function (_, BB, template_str, UserCollection, formatters, boostrap, validator, app) {
     return BB.View.extend({
         events: {
             'submit form': 'on_form_submit'
@@ -24,6 +25,7 @@
             } else {
                 data.title = 'Edit user: ' + this.model.id;
             }
+            data.user = app.get('user').toJSON();
             this.$el.html(this.template(data));
             this.$('#role_input').val(data.role);
             this.$('.modal').modal('show');
@@ -80,7 +82,10 @@
                 email: this.$('#email_input').val(),
                 first_name: this.$('#first_name_input').val(),
                 last_name: this.$('#last_name_input').val(),
-                role: this.$('#role_input').val(),
+                role: 'regular',
+            }
+            if (this.$('#role_input').length > 0) {
+                data.role = this.$('#role_input').val();
             }
             var password = '';
             password = this.$('#password_input').val();

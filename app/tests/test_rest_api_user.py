@@ -16,15 +16,25 @@ class RestApiUserTestCase(TestCase):
 
     def setUp(self):
         User.objects.all().delete()
+        self.admin = User(
+            first_name='Admin', last_name='Adim', email='admin@test.com',
+            is_active=True, is_superuser=True, is_staff=True, username='admin'
+        )
+        self.admin.set_password('12345')
+        self.admin.save()
+
+        data = {'email': 'admin@test.com', 'password': '12345'}
+        url = reverse('login')
+        self.client.post(url, data=data)
 
     def test_get_all(self):
-        item = User(first_name='First', last_name='Last', email='first@last.com', is_active=True)
+        item = User(username='test_user', first_name='First', last_name='Last', email='first@last.com', is_active=True)
         item.save()
 
         url = reverse('rest_api_user_list')
         response = self.client.get(url)
         response_data = json.loads(response.content)
-        self.assertEqual(response_data, [user_to_dict(item)])
+        self.assertEqual(response_data, [user_to_dict(self.admin), user_to_dict(item)])
 
     def test_create(self):
         data = {
@@ -39,7 +49,7 @@ class RestApiUserTestCase(TestCase):
 
 
         # check if record is saved in DB
-        item = User.objects.all()[0]
+        item = User.objects.get(email='new@test.com')
         self.assertEqual(item.email, 'new@test.com')
         self.assertEqual(item.username, 'new@test.com')
         self.assertEqual(item.first_name, 'First1')
@@ -72,7 +82,7 @@ class RestApiUserTestCase(TestCase):
         response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         # check if record is saved in DB
-        item = User.objects.all()[0]
+        item = User.objects.get(id=item.id)
         self.assertEqual(item.email, 'first1@last1.com')
         self.assertEqual(item.username, 'first1@last1.com')
         self.assertEqual(item.first_name, 'First1')
@@ -105,7 +115,7 @@ class RestApiUserTestCase(TestCase):
         response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         # check if record is saved in DB
-        item = User.objects.all()[0]
+        item = User.objects.get(id=item.id)
         self.assertTrue(item.check_password('54321'))
 
     def test_delete(self):
