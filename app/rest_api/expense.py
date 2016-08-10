@@ -8,12 +8,17 @@ from dateutil import parser
 from ..models import Expense
 
 
+def get_expenses_query_set(request):
+    qs = Expense.objects.filter(user=request.user)
+    if 'q' in request.GET:
+        qs = qs.filter(description__contains=request.GET['q'])
+    return qs
+
+
 class ExpenseResource(resource.Resource):
     @resource.user_authentication_required
     def get(self, request, id=None):
-        qs = Expense.objects.filter(user=request.user)
-        if 'q' in request.GET:
-            qs = qs.filter(description__contains=request.GET['q'])
+        qs = get_expenses_query_set(request)
         items = [item.to_dict() for item in qs]
         items_json = json.dumps(items, cls=DjangoJSONEncoder)
         return HttpResponse(items_json, content_type='application/json', status=200)

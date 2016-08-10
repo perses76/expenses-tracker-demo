@@ -7,11 +7,21 @@
         'text!templates/expenses.html',
         'views/expense_item_edit',
         'views/expenses_filter',
+        'views/print_expenses'
     ],
-    function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit, ExpensesFilterView) {
+    function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit, ExpensesFilterView,
+        PrintExpensesView) {
      return BB.View.extend({
         template: _.template(template_str),
         filter_data: new BB.Model({q: ''}),
+        events: {
+            'click .print_btn': 'on_print_click',
+
+        },
+        on_print_click: function (env) {
+            var print_view = new PrintExpensesView({el: this.$('#print_area'), collection: this.items });
+            print_view.render();
+        },
         initialize: function () {
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
             this.expense_list_view.on('select_item', this.on_select_item, this);

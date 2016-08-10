@@ -17,6 +17,9 @@ rest_api_url_patterns = [
     url(r'^login/?$', rest_api.login, name='login'),
     url(r'^auth/?$', rest_api.auth, name='auth'),
     url(r'^logout/?$', rest_api.logout, name='logout'),
+
+    #print_expenses
+    url(r'^print_expenses/?$', rest_api.print_expenses, name='print_expenses'),
     
 ]
 
