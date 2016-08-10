@@ -1,4 +1,5 @@
 ﻿define([
+       'models/app',
        'underscore',
         'jquery',
         'backbone',
@@ -9,7 +10,7 @@
         'views/expenses_filter',
         'views/print_expenses'
     ],
-    function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit, ExpensesFilterView,
+    function (app, _, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit, ExpensesFilterView,
         PrintExpensesView) {
      return BB.View.extend({
         template: _.template(template_str),
@@ -43,11 +44,17 @@
         on_save_item: function (model) {
             var view = this;
             if (model.isNew()) {
+                if (app.get('user').get('role') == 'admin') {
+                    if (this.filter_data.get('user') != '') {
+                        model.set({user_id: this.filter_data.get('user')});
+                    }
+                }
                 this.expense_list_view.add_item(model);
             }
             model.save([], {
                 success: function (model) {
                     alert('Success saved!');
+                    view.expense_item_edit.reset();
                 },
                 error: function () {
                     alert('error');

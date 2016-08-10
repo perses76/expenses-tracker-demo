@@ -10,11 +10,14 @@
             this.render();
         },
         on_add_new_click: function (env) {
-            this.set_model(new ExpenseModel);
+            this.reset();
         },
         template: _.template(template_str),
         initialize: function (options) {
             if (this.model == null) this.model = new ExpenseModel();
+        },
+        reset: function () {
+            this.set_model(new ExpenseModel);
         },
         render: function () {
             data = this.model.toJSON();

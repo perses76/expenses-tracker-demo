@@ -39,12 +39,17 @@ class ExpenseResource(resource.Resource):
     @resource.user_authentication_required
     def post(self, request):
         data = json.loads(request.body)
+        user_id = request.user.id
+        if 'user_id' in data:
+            user_id = long(data['user_id'])
+            if request.user.id != user_id and not request.user.is_superuser:
+                raise ValueError('Current  user can not create record for user "{}"'.format(user_id))
         item = Expense(
             amount = Decimal(data['amount']),
             description = data['description'],
             comment = data['comment'],
             transaction_dt = parser.parse(data['transaction_dt']),
-            user=request.user
+            user_id=user_id
         )
         item.save()
         item = Expense.objects.get(id=item.id)
