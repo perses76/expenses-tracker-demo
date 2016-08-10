@@ -2,16 +2,29 @@ from decimal import Decimal
 import json
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth import get_user_model
 import resource
 from dateutil import parser
-
 from ..models import Expense
 
 
+User = get_user_model()
+
+
 def get_expenses_query_set(request):
-    qs = Expense.objects.filter(user=request.user)
+    qs = Expense.objects.all()
     if 'q' in request.GET:
         qs = qs.filter(description__contains=request.GET['q'])
+    current_user = request.user
+    if 'user' in request.GET:
+        user_id = long(request.GET['user'])
+        user = User.objects.get(id=user_id)
+        if user.id == current_user.id or current_user.is_superuser:
+            qs = qs.filter(user=user)
+        else:
+            raise ValueError('Not Allowed!!!')
+    else:
+        qs = qs.filter(user=current_user)
     return qs
 
 

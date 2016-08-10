@@ -3,5 +3,12 @@
     <label for="free_text_input">Filter</label>
     <input type="text" class="form-control" id="free_text_input" placeholder="Search by comment and description field">
   </div>
+
+  <div class="form-group <% if (!is_admin) { %> hidden <% } %>">
+    <label for="free_text_input">User</label>
+    <select class="form-control role_input" id="role_input">
+    </select>
+  </div>
+
   <button type="submit" class="btn btn-default">Apply</button>
 </form>

@@ -19,7 +19,7 @@
 
         },
         on_print_click: function (env) {
-            var print_view = new PrintExpensesView({el: this.$('#print_area'), collection: this.items });
+            var print_view = new PrintExpensesView({el: this.$('#print_area'), model: this.filter_data });
             print_view.render();
         },
         initialize: function () {
@@ -29,7 +29,7 @@
             this.expense_item_edit.on('save_item', this.on_save_item, this);
             this.filter_data.on('change', this.on_filter_data_changed, this);
         },
-        on_filter_data_changed: function () {
+        on_filter_data_changed: function (data) {
             alert('Filter data was changed');
             this.load_data();
             console.log(this.filter_data.toJSON());
@@ -57,10 +57,7 @@
         load_data: function () {
             var col = new ExpenseCollection();
             var view = this;
-            var data = {};
-            if (this.filter_data.get('q') != '') {
-                data.q = this.filter_data.get('q')
-            }
+            var data = this.filter_data.toJSON();
             col.fetch({
                 data: data,
                 success: function (items) {
@@ -78,9 +75,6 @@
                 }
             })
         },
-        on_apply_filter: function (data) {
-            this.filter_data.set(data);
-        },
         render: function () {
             this.$el.html(this.template());
             this.$('#expense_list').append(this.expense_list_view.$el);
@@ -90,10 +84,9 @@
             this.expense_item_edit.render();
             this.load_data();
 
-            var expenses_filter_view = new ExpensesFilterView();
+            var expenses_filter_view = new ExpensesFilterView({ model: this.filter_data });
             this.$('#expenses_filter').append(expenses_filter_view.$el);
             expenses_filter_view.render();
-            expenses_filter_view.on('apply_filter', this.on_apply_filter, this);
         }
     });
 });

@@ -10,7 +10,9 @@ define(['backbone'], function (BB) {
         },
         is_authenticated: function () {
             return  (this.id != null)
+        },
+        get_full_name: function () {
+            return this.first_name + ' ' + this.last_name;
         }
-
     });
 })

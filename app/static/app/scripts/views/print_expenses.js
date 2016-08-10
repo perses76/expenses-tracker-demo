@@ -7,9 +7,12 @@ define([
     return BB.View.extend({
         template: _.template(template_str),
         render: function () {
-            var view = this;
+            var view = this,
+                url = '/api/printexpenses';
+            url += '?' + $.param(this.model.toJSON());
+            alert(url);
             var $iframe = $('<iframe src="/api/print_expenses" name="print_expenses"></iframe>');
-            $iframe.hide();
+            $iframe.hide();$
             this.$el.append($iframe);
             window.frames['print_expenses'].print();
             // this.remove();
