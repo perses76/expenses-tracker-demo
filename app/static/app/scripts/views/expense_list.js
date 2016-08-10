@@ -1,7 +1,5 @@
 ﻿define(['backbone', 'views/expense_item', 'text!templates/expense_list.html'], function (BB, ExpenseItemView, template_str) {
      return BB.View.extend({
-        tagName: 'table',
-        className: 'table',
         template: template_str,
         data: new BB.Model(),
         initialize: function() {
@@ -22,9 +20,8 @@
             this.data.set({ current_item: model });
         },
         render: function () {
-            this.$el.append(this.template);
+            this.$el.html(this.template);
             this.$tbody = this.$('tbody');
-            this.$el.append(this.$tbody);
         }
     });
 });

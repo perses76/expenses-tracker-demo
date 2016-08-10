@@ -2,7 +2,15 @@
     function (_, BB, template_str, ExpenseModel, formatters) {
     return BB.View.extend({
         events: {
-            'submit form': 'on_form_submit'
+            'submit form': 'on_form_submit',
+            'click .add_new_btn': 'on_add_new_click',
+            'click .cancel_btn': 'on_cancel_click',
+        },
+        on_cancel_click: function (env) {
+            this.render();
+        },
+        on_add_new_click: function (env) {
+            this.set_model(new ExpenseModel);
         },
         template: _.template(template_str),
         initialize: function (options) {
@@ -11,6 +19,7 @@
         render: function () {
             data = this.model.toJSON();
             data['transaction_dt'] = formatters.datetime_to_str(data['transaction_dt']);
+            data['is_new'] = this.model.isNew();
             this.$el.html(this.template(data));
         },
         set_model: function (model) {

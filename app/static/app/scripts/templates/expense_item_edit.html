@@ -1,4 +1,13 @@
-﻿<form>
+﻿<div class="panel panel-default">
+  <div class="panel-heading">
+      <div class="row">
+          <div class="col-md-6"><h4><% if (is_new) { %>New <% } else { %> Edit <% } %></h4></div>
+          <div class="col-md-6"><% if (!is_new) { %> <button class="btn pull-right add_new_btn">New</button> <% } %></div>
+      </div>
+  </div>
+  <div class="panel-body">
+<!-- form start -->
+<form>
   <div class="form-group">
     <label for="amount_input">Amount</label>
     <input type="number" class="form-control" placeholder="Enter Amount" id="amount_input" value="<%= amount %>">
@@ -15,5 +24,10 @@
     <label for="transaction_dt_input">Date</label>
     <input type="text" class="form-control" id="transaction_dt_input" placeholder="Enter transaction date" value="<%= transaction_dt %>">
   </div>
-  <button type="submit" class="btn btn-default" id="save_button">Save</button>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="button" class="btn btn-default cancel_btn">Cancel</button>
 </form>
+<!-- form end -->
+  </div>
+</div>
+
