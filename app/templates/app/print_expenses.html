@@ -1,22 +1,41 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>Bootstrap 101 Template</title>
+        <title>Expenses tracker report</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{% static 'app/libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
-        <table>
-            <tr>
-                <td>ID</td>
-            </tr>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-            </tr>
+        <h1>Expenses Tracker Report</h1>
+        <h3>User: {{ user.first_name }} {{ user.last_name }} ({{ user.email }})</h3>
+        <h3>Report date: {% now "SHORT_DATETIME_FORMAT" %}</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for g in groups %}
+                <tr class="info">
+                    <td colspan="4"><h4>{{ g.transaction_dt }}</h4></td>
+                </tr>
+                {% for item in g.expenses %}
+                <tr>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.transaction_dt }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.comment }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="active">
+                    <td colspan="4"><h4>Total: {{ g.total }}, Average {{ g.average }}</h4></td>
+                </tr>
             {% endfor %}
-
+            </tbody>
         </table>
-        <h1> I want to print it</h1>
     </body>
 </html>
