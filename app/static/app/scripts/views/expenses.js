@@ -25,10 +25,14 @@
         },
         initialize: function () {
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
+            this.expense_list_view.collection.on('remove', this.on_model_remove, this);
             this.expense_list_view.on('select_item', this.on_select_item, this);
             this.expense_item_edit = new ExpenseItemEdit();
             this.expense_item_edit.on('save_item', this.on_save_item, this);
             this.filter_data.on('change', this.on_filter_data_changed, this);
+        },
+        on_model_remove: function () {
+            this.expense_item_edit.reset();
         },
         on_filter_data_changed: function (data) {
             alert('Filter data was changed');
@@ -75,7 +79,8 @@
                     items.each(function (item) {
                         view.expense_list_view.collection.add(item);
                     });
-                    console.log(items);
+                    view.expense_item_edit.reset();
+
                 },
                 error: function () {
                     alert('Error!');
