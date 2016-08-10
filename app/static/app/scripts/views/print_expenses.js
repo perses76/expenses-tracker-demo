@@ -7,15 +7,14 @@ define([
     return BB.View.extend({
         template: _.template(template_str),
         render: function () {
+            this.$('#print_expenses').remove();
             var view = this,
-                url = '/api/printexpenses';
+                url = '/api/print_expenses';
             url += '?' + $.param(this.model.toJSON());
-            alert(url);
-            var $iframe = $('<iframe src="/api/print_expenses" name="print_expenses"></iframe>');
-            $iframe.hide();$
+            var $iframe = $('<iframe src="' + url + '" name="print_expenses" id="print_expenses"></iframe>');
+            $iframe.hide();
             this.$el.append($iframe);
             window.frames['print_expenses'].print();
-            // this.remove();
             return;
         },
         render1: function () {
