@@ -9,9 +9,16 @@
         },
         initialize: function() {
             this.model.on('change', this.render, this)
+            this.model.on('remove', this.on_model_remove, this)
+        },
+        on_model_remove: function (model) {
+            this.remove();
         },
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+        },
+        on_remove_from_collection: function (model) {
+            console.log('remove from collection', model);
         },
         on_item_click: function (ev) {
             this.trigger('select_item', this.model);

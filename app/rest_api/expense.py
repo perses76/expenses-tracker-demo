@@ -11,7 +11,10 @@ from ..models import Expense
 class ExpenseResource(resource.Resource):
     @resource.user_authentication_required
     def get(self, request, id=None):
-        items = [item.to_dict() for item in Expense.objects.filter(user=request.user)]
+        qs = Expense.objects.filter(user=request.user)
+        if 'q' in request.GET:
+            qs = qs.filter(description__contains=request.GET['q'])
+        items = [item.to_dict() for item in qs]
         items_json = json.dumps(items, cls=DjangoJSONEncoder)
         return HttpResponse(items_json, content_type='application/json', status=200)
 

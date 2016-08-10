@@ -1,13 +1,28 @@
-﻿define(['underscore', 'jquery', 'backbone', 'views/expense_list', 'collections/expense', 'text!templates/expenses.html', 'views/expense_item_edit'],
-    function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit) {
+﻿define([
+       'underscore',
+        'jquery',
+        'backbone',
+        'views/expense_list',
+        'collections/expense',
+        'text!templates/expenses.html',
+        'views/expense_item_edit',
+        'views/expenses_filter',
+    ],
+    function (_, $, BB, ExpenseListView, ExpenseCollection, template_str, ExpenseItemEdit, ExpensesFilterView) {
      return BB.View.extend({
         template: _.template(template_str),
+        filter_data: new BB.Model({q: ''}),
         initialize: function () {
-            // this.load_data();
             this.expense_list_view = new ExpenseListView({ collection: new ExpenseCollection() });
             this.expense_list_view.on('select_item', this.on_select_item, this);
             this.expense_item_edit = new ExpenseItemEdit();
             this.expense_item_edit.on('save_item', this.on_save_item, this);
+            this.filter_data.on('change', this.on_filter_data_changed, this);
+        },
+        on_filter_data_changed: function () {
+            alert('Filter data was changed');
+            this.load_data();
+            console.log(this.filter_data.toJSON());
         },
         on_select_item: function (model) {
             this.show_edit_model(model);
@@ -32,9 +47,17 @@
         load_data: function () {
             var col = new ExpenseCollection();
             var view = this;
+            var data = {};
+            if (this.filter_data.get('q') != '') {
+                data.q = this.filter_data.get('q')
+            }
             col.fetch({
+                data: data,
                 success: function (items) {
                     view.expenses_items = items;
+                    view.expense_list_view.collection.remove(
+                        view.expense_list_view.collection.models
+                    );
                     items.each(function (item) {
                         view.expense_list_view.collection.add(item);
                     });
@@ -45,6 +68,9 @@
                 }
             })
         },
+        on_apply_filter: function (data) {
+            this.filter_data.set(data);
+        },
         render: function () {
             this.$el.html(this.template());
             this.$('#expense_list').append(this.expense_list_view.$el);
@@ -53,6 +79,11 @@
             this.$('#expense_item_edit').append(this.expense_item_edit.$el);
             this.expense_item_edit.render();
             this.load_data();
+
+            var expenses_filter_view = new ExpensesFilterView();
+            this.$('#expenses_filter').append(expenses_filter_view.$el);
+            expenses_filter_view.render();
+            expenses_filter_view.on('apply_filter', this.on_apply_filter, this);
         }
     });
 });
