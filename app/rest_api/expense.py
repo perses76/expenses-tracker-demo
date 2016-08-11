@@ -22,10 +22,27 @@ def get_expenses_query_set(request):
         if user.id == current_user.id or current_user.is_superuser:
             qs = qs.filter(user=user)
         else:
-            raise ValueError('Not Allowed!!!')
+            raise resource.UserNotAuthorized(
+                'current user "{}" can not see record of user = "{}"'.format(
+                    request.user.id,
+                    user.id
+                )
+            )
     else:
         qs = qs.filter(user=current_user)
     return qs
+
+def check_permission(user, expense):
+    if user.is_superuser:
+        return True
+    if expense.user.id == user.id:
+        return True
+    raise resource.UserNotAuthorized(
+        'current user "{}" can not see record of user = "{}"'.format(
+            user.id,
+            expense.user.id
+        )
+    )
 
 
 class ExpenseResource(resource.Resource):
@@ -42,8 +59,6 @@ class ExpenseResource(resource.Resource):
         user_id = request.user.id
         if 'user_id' in data:
             user_id = long(data['user_id'])
-            if request.user.id != user_id and not request.user.is_superuser:
-                raise ValueError('Current  user can not create record for user "{}"'.format(user_id))
         item = Expense(
             amount = Decimal(data['amount']),
             description = data['description'],
@@ -51,6 +66,7 @@ class ExpenseResource(resource.Resource):
             transaction_dt = parser.parse(data['transaction_dt']),
             user_id=user_id
         )
+        check_permission(request.user, item)
         item.save()
         item = Expense.objects.get(id=item.id)
         items_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
@@ -60,6 +76,7 @@ class ExpenseResource(resource.Resource):
     def put(self, request, id):
         data = json.loads(request.body)
         item = Expense.objects.get(id=id, user=request.user)
+        check_permission(request.user, item)
         item.amount = Decimal(data['amount'])
         item.description = data['description']
         item.comment = data['comment']
@@ -72,6 +89,7 @@ class ExpenseResource(resource.Resource):
     @resource.user_authentication_required
     def delete(self, request, id):
         item = Expense.objects.get(pk=id)
+        check_permission(request.user, item)
         item_json = json.dumps(item.to_dict(), cls=DjangoJSONEncoder)
         item.delete()
         return HttpResponse(item_json, status=200, content_type='application/json')

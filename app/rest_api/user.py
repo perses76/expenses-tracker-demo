@@ -12,6 +12,41 @@ from app.utils import get_user_role
 User = get_user_model()
 
 
+def check_permission(user, user):
+    if user.is_superuser:
+        return True
+    if expense.user.id == user.id:
+        return True
+    raise resource.UserNotAuthorized(
+        'current user "{}" can not see record of user = "{}"'.format(
+            user.id,
+            expense.user.id
+        )
+    )
+
+
+def check_post_permission(user, data):
+    role = get_user_role(user)
+    if not request.user.is_authenticated():
+        if data['role'] == 'regular':
+            return True
+        else:
+            raise resource.UserNotAuthorized('Anonimous user has permission only to create regular user')
+
+    # here we check only authorized users
+    if role != 'regular':
+        raise resource.UserNotAuthorized('Regular user does not have permission to create new user')
+
+    # raise resource.UserNotAuthorized('Anonymous user can create only regular new user')
+        
+    if role == 'regular' and request.user.is_authenticated():
+        raise resource.UserNotAuthorized('Regular user does not have permission to create new user')
+
+    if role == 'manager' and data['role'] != 'regular':
+        return http.HttpResponseForbidden('Manager can manage only regular user')
+
+
+
 class UserResource(resource.Resource):
     @resource.user_authentication_required
     def get(self, request, id=None):
@@ -19,7 +54,7 @@ class UserResource(resource.Resource):
         # return http.HttpResponseForbidden('Role={}, user_id={}, is_superuser={}'.format(role, request.user.id, request.user.is_superuser))
 
         if role == 'regular':
-            return http.HttpResponseForbidden('Regular user does not have access to user REST API')
+            raise resource.UserNotAuthorized('Regular user does not have access to user REST API')
 
         if role == 'admin':
             qs = User.objects.all()
@@ -32,18 +67,9 @@ class UserResource(resource.Resource):
 
     def post(self, request):
         role = get_user_role(request.user)
-        if role == 'regular' and request.user.is_authenticated():
-            return http.HttpResponseForbidden('Regular user does not have permission to create new user')
-
-        if not request.user.is_authenticated() and role != 'regular':
-            return http.HttpResponseForbidden('Anonymous user can create only regular new user')
-
         data = json.loads(request.body)
         self.validate(data)
-
-        if role == 'manager' and data['role'] != 'regular':
-            return http.HttpResponseForbidden('Manager can manage only regular user')
-
+        check_post_permissions(request.user, data)
         item = User()
         self._update_item(item, data)
         item.set_password(data['password'])
@@ -55,19 +81,21 @@ class UserResource(resource.Resource):
     @resource.user_authentication_required
     def put(self, request, id):
         role = get_user_role(request.user)
-        if role == 'regular':
-            return http.HttpResponseForbidden('Regular user does not have access to user REST API')
-
         data = json.loads(request.body)
         self.validate(data)
+        item = User.objects.get(id=id)
+        
+        # check permissions
+        if role == 'regular':
+            raise resource.UserNotAuthorized('Regular user does not have access to user REST API')
 
         if role == 'manager' and data['role'] != 'regular':
-            return http.HttpResponseForbidden('Manager can manage only regular user')
-
-        item = User.objects.get(id=id)
+            raise resource.UserNotAuthorized('Manager can manage only regular user')
 
         if role == 'manager' and get_user_role(item) != 'regular':
-            return http.HttpResponseForbidden('Manager can manage only regular user')
+            raise resource.UserNotAuthorized('Manager can manage only regular user')
+
+        # check permissions end
 
         self._update_item(item, data)
         if data.get('password'):
@@ -104,12 +132,13 @@ class UserResource(resource.Resource):
 
     def delete(self, request, id):
         role = get_user_role(request.user)
-        if role == 'regular':
-            return http.HttpResponseForbidden('Regular user does not have access to user REST API')
-
         item = User.objects.get(pk=id)
+
+        if role == 'regular':
+            raise resource.UserNotAuthorized('Regular user does not have access to user REST API')
+
         if role == 'manager' and get_user_role(item) != 'regular':
-            return http.HttpResponseForbidden('Manager can manage only regular user')
+            raise resource.UserNotAuthorized('Manager can manage only regular user')
 
         item_json = json.dumps(user_to_dict(item), cls=DjangoJSONEncoder)
         item.delete()
