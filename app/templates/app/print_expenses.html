@@ -8,7 +8,7 @@
     <body>
         <h1>Expenses Tracker Report</h1>
         <h3>User: {{ user.first_name }} {{ user.last_name }} ({{ user.email }})</h3>
-        <h3>Report date: {% now "SHORT_DATETIME_FORMAT" %}</h3>
+        <h3>Report date: {% now "d/m/Y H:i" %}</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -21,18 +21,18 @@
             <tbody>
             {% for g in groups %}
                 <tr class="info">
-                    <td colspan="4"><h4>{{ g.transaction_dt }}</h4></td>
+                    <td colspan="4"><strong>{{ g.caption }}</strong></td>
                 </tr>
                 {% for item in g.expenses %}
                 <tr>
                     <td>{{ item.amount }}</td>
-                    <td>{{ item.transaction_dt }}</td>
+                    <td>{{ item.transaction_dt|date:"d/m/Y H:i" }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.comment }}</td>
                 </tr>
                 {% endfor %}
                 <tr class="active">
-                    <td colspan="4"><h4>Total: {{ g.total }}, Average {{ g.average }}</h4></td>
+                    <td colspan="4"><italic>Total: {{ g.total }}, Average {{ g.average }}</italic></td>
                 </tr>
             {% endfor %}
             </tbody>
