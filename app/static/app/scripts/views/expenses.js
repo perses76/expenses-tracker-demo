@@ -15,6 +15,7 @@
      return BB.View.extend({
         template: _.template(template_str),
         filter_data: new BB.Model({q: ''}),
+        expenses_filter_view: null,
         events: {
             'click .print_btn': 'on_print_click',
 
@@ -29,7 +30,8 @@
             this.expense_list_view.on('select_item', this.on_select_item, this);
             this.expense_item_edit = new ExpenseItemEdit();
             this.expense_item_edit.on('save_item', this.on_save_item, this);
-            this.filter_data.on('change', this.on_filter_data_changed, this);
+            // this.filter_data.on('change', this.on_filter_data_changed, this);
+            this.listenTo(this.filter_data, 'change', this.on_filter_data_changed);
         },
         on_model_remove: function () {
             this.expense_item_edit.reset();
@@ -96,9 +98,14 @@
             this.expense_item_edit.render();
             this.load_data();
 
-            var expenses_filter_view = new ExpensesFilterView({ model: this.filter_data });
-            this.$('#expenses_filter').append(expenses_filter_view.$el);
-            expenses_filter_view.render();
-        }
+            this.expenses_filter_view = new ExpensesFilterView({ model: this.filter_data });
+            this.$('#expenses_filter').append(this.expenses_filter_view.$el);
+            this.expenses_filter_view.render();
+        },
+        remove: function () {
+            this.stopListening();
+            this.expenses_filter_view.remove();
+            BB.View.prototype.remove.call(this);
+        },
     });
 });

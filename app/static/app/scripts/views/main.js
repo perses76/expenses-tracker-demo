@@ -39,6 +39,9 @@
         render: function () {
             var view = this;
             if (this.data.get('status') == 'data_is_initialized') {
+                if (this.current_view != null) {
+                    this.current_view.remove();
+                }
                 if (app.get('user').is_authenticated()) {
                     this.current_view = new Dashboard();
                     this.current_view.on('logout', this.logout, this);

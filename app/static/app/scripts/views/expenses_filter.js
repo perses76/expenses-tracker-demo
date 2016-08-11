@@ -15,7 +15,6 @@ define([
         on_apply_filter: function ( env ) {
             env.preventDefault()
             this.model.set(this.get_filter_data());
-            // this.trigger('apply_filter', this.get_filter_data());
         },
         get_filter_data: function () {
             return {
@@ -47,7 +46,7 @@ define([
                     }
                 });
             }
-        }
+        },
     });
 
 });
