@@ -12,19 +12,6 @@ from app.utils import get_user_role
 User = get_user_model()
 
 
-def check_permission(user, user):
-    if user.is_superuser:
-        return True
-    if expense.user.id == user.id:
-        return True
-    raise resource.UserNotAuthorized(
-        'current user "{}" can not see record of user = "{}"'.format(
-            user.id,
-            expense.user.id
-        )
-    )
-
-
 def check_post_permission(user, data):
     role = get_user_role(user)
     if not request.user.is_authenticated():

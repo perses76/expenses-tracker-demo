@@ -10,11 +10,6 @@ define(['jquery', 'backbone', 'models/user'],
             BB.ajax(url, {
                 data: data,
                 method: 'POST',
-                beforeSend: function (xhr) {
-                  // Set the CSRF Token in the header for security
-                    var token = view.getCookie('csrftoken');
-                    if (token) xhr.setRequestHeader('X-CSRFToken', token);
-                },
                 success: function (data) {
                     console.log('data=', data)
                     if (data.status == 200) {

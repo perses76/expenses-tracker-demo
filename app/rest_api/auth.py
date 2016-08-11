@@ -2,9 +2,12 @@ import json
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.views.decorators.csrf import csrf_exempt
 from app.serializers import user_to_dict
 
 
+
+@csrf_exempt
 def login(request):
     email = request.POST['email']
     password = request.POST['password']
@@ -22,6 +25,7 @@ def login(request):
     return HttpResponse(data_json, content_type='application/json', status=200)
 
 
+@csrf_exempt
 def auth(request):
     user = request.user
     if user.is_authenticated():
@@ -44,6 +48,7 @@ def auth(request):
     return HttpResponse(data_json, content_type='application/json', status=200)
 
 
+@csrf_exempt
 def logout(request):
     django_logout(request)
     return HttpResponse('{"status": 200}', content_type='application/json', status=200)
