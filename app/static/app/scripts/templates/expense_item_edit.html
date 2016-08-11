@@ -10,7 +10,12 @@
 <form>
   <div class="form-group">
     <label for="amount_input">Amount</label>
-    <input type="number" class="form-control" placeholder="Enter Amount" id="amount_input" value="<%= amount %>">
+    <input type="number" step="any" class="form-control" placeholder="Enter Amount" id="amount_input" value="<%= amount %>">
+    <div class="alert alert-danger hidden" id="amount_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Enter valid amount number. (e.g. 25.15)</span>
+    </div>
   </div>
   <div class="form-group">
     <label for="description_input">Description</label>
@@ -23,6 +28,11 @@
   <div class="form-group">
     <label for="transaction_dt_input">Date</label>
     <input type="text" class="form-control" id="transaction_dt_input" placeholder="Enter transaction date" value="<%= transaction_dt %>">
+    <div class="alert alert-danger hidden" id="transaction_dt_input_error" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>Enter transaction date</span>
+    </div>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
   <button type="button" class="btn btn-default cancel_btn">Cancel</button>

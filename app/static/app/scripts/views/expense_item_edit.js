@@ -1,5 +1,11 @@
-﻿define(['underscore', 'backbone', 'text!templates/expense_item_edit.html', 'models/expense', 'utils/formatters'],
-    function (_, BB, template_str, ExpenseModel, formatters) {
+﻿define(['underscore',
+    'backbone',
+    'text!templates/expense_item_edit.html',
+    'models/expense',
+    'utils/formatters',
+    'utils/input_validator'
+    ],
+    function (_, BB, template_str, ExpenseModel, formatters, validator) {
     return BB.View.extend({
         events: {
             'submit form': 'on_form_submit',
@@ -33,9 +39,20 @@
             ev.preventDefault();
             // this.clearErrors();
             // this.readData();
-            // if (!this.validateData()) return
+            if (!this.validate_data()) return
             this.update_model();
             this.trigger('save_item', this.model);
+        },
+        validate_data: function () {
+            // this.hide_error();
+            rules = [
+                { ctrl: '#amount_input', msg_ctrl: '#amount_input_error', check: 'is_decimal' },
+                { ctrl: '#transaction_dt_input', msg_ctrl: '#transaction_dt_input_error', check: 'is_required' },
+                { ctrl: '#transaction_dt_input', msg_ctrl: '#transaction_dt_input_error', check: 'is_datetime' },
+            ]
+            var result = validator.validate(rules, this);
+            return result;
+
         },
         update_model: function () {
             var data = {
