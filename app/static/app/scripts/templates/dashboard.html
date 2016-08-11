@@ -1,9 +1,20 @@
-<div>
-    <button type="button" id="logout_btn">Logout</button>
-    <button type="button" id="expenses_btn">Expenses</button>
+<header class="navbar navbar-default navbar-static-top" style="background-color: gray;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="logo">ET Expenses tracker</div>
+        </div>
+        <div class="col-md-6 pull-right">
+            <div class="pull-right" style="padding-top: 8px; margin-right: 10px">
+                <span style="color: white;"><%= user.email %> (<%= user.role %>)</span>
+                <button type="button" class="btn btn_default" id="logout_btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="panel">
+    <button type="button" class="btn btn_default" id="expenses_btn">Expenses</button>
     <% if (user.role != 'regular') { %>
-    <button type="button" id="users_btn">Users</button>
+    <button type="button" class="btn btn_default" id="users_btn">Users</button>
     <% } %>
-    <h1>User <%= user.email %>, role= <%= user.role %></h1>
 </div>
 <div id="dashboard_content"></div>

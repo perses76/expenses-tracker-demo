@@ -6,12 +6,13 @@
     'views/error_message',
     'models/app',
     'views/login',
-    'services/auth'
+    'services/auth',
+    'text!templates/main.html',
     ],
-    function (_, $, BB, Dashboard, ErrorMessageView, app, LoginView, Auth) {
+    function (_, $, BB, Dashboard, ErrorMessageView, app, LoginView, Auth, template_str) {
     var MainView = BB.View.extend({
         el: $('#app_main'),
-        template: _.template('<div id="main_content"></div>'),
+        template: _.template(template_str),
         data: new BB.Model({status: 'zero'}),
         initialize: function() {
             // BB.ajax = _.bind(this.ajax, this);
