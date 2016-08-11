@@ -35,8 +35,12 @@ define([
             this.$el.html(this.template({ user: app.get('user').toJSON() }));
             if (this.state == 'expenses') {
                 this.current_view = new ExpensesView();
+                this.$("#users_btn").removeClass('active');
+                this.$("#expenses_btn").addClass('active');
             } else {
                 this.current_view = new UsersView();
+                this.$("#users_btn").addClass('active');
+                this.$("#expenses_btn").removeClass('active');
             }
             this.$('#dashboard_content').append(this.current_view.$el);
             this.current_view.render();
