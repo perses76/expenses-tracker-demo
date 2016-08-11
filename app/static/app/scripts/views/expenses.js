@@ -37,9 +37,7 @@
             this.expense_item_edit.reset();
         },
         on_filter_data_changed: function (data) {
-            alert('Filter data was changed');
             this.load_data();
-            console.log(this.filter_data.toJSON());
         },
         on_select_item: function (model) {
             this.show_edit_model(model);
@@ -55,15 +53,19 @@
                         model.set({user_id: this.filter_data.get('user')});
                     }
                 }
-                this.expense_list_view.add_item(model);
+                var tmp_col = new ExpenseCollection([model]);
+
+                // this.expense_list_view.add_item(model);
             }
             model.save([], {
                 success: function (model) {
-                    alert('Success saved!');
+                    app.window.alert('The record was successfully saved!')
+                    view.expense_list_view.add_item(model);
                     view.expense_item_edit.reset();
                 },
-                error: function () {
-                    alert('error');
+                error: function (model, response, options) {
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
         },
@@ -85,7 +87,8 @@
 
                 },
                 error: function () {
-                    alert('Error!');
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             })
         },

@@ -14,24 +14,21 @@ User = get_user_model()
 
 def check_post_permission(user, data):
     role = get_user_role(user)
-    if not request.user.is_authenticated():
+    if not user.is_authenticated():
         if data['role'] == 'regular':
             return True
         else:
             raise resource.UserNotAuthorized('Anonimous user has permission only to create regular user')
 
     # here we check only authorized users
-    if role != 'regular':
+
+    if role == 'regular':
         raise resource.UserNotAuthorized('Regular user does not have permission to create new user')
 
     # raise resource.UserNotAuthorized('Anonymous user can create only regular new user')
         
-    if role == 'regular' and request.user.is_authenticated():
-        raise resource.UserNotAuthorized('Regular user does not have permission to create new user')
-
     if role == 'manager' and data['role'] != 'regular':
         return http.HttpResponseForbidden('Manager can manage only regular user')
-
 
 
 class UserResource(resource.Resource):
@@ -56,7 +53,7 @@ class UserResource(resource.Resource):
         role = get_user_role(request.user)
         data = json.loads(request.body)
         self.validate(data)
-        check_post_permissions(request.user, data)
+        check_post_permission(request.user, data)
         item = User()
         self._update_item(item, data)
         item.set_password(data['password'])

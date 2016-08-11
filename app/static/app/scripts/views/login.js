@@ -18,11 +18,12 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
         on_do_save_item: function(model, edit_view) {
             model.save([], {
                 success: function (model) {
-                    alert('Success saved!');
+                    app.window.alert('The record was successfully saved!')
                     edit_view.remove();
                 },
                 error: function (model, response, options) {
-                    edit_view.show_error(response.responseText);
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
         },
@@ -38,9 +39,7 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
             view.$('.auth_failed_widget').addClass('hidden');
             auth.login(email, password, {
                 success: function (user) {
-                    alert('Login view: successfully loged in');
                     app.set({ user: user });
-                    console.log(user);
                 },
                 fail: function (status, message) {
                     view.$('.auth_failed_widget').removeClass('hidden');

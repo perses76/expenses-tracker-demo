@@ -17,14 +17,5 @@ define([
             window.frames['print_expenses'].print();
             return;
         },
-        render1: function () {
-            w = window.open('/api/print_expenses', '_blank');
-            w.onunload = function(){
-                console.log('closed!');
-            }
-            w.focus();
-            w.print();
-            // w.close();
-        }
     });
 });

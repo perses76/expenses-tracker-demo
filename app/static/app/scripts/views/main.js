@@ -24,7 +24,6 @@
             var original_error = settings.error
             var view = this;
             settings.error = function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
                 var title = jqXHR.status + jqXHR.statusText,
                     message = jqXHR.responseText;
                 view.show_error_message({ title: errorThrown, message: message});

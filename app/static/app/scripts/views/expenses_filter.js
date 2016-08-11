@@ -42,7 +42,8 @@ define([
                         role_input.val(user.id);
                     },
                     error: function () {
-                        alert('error!');
+                        app.window.alert('Operation error. Please look console for more info');
+                        console.log('model, response, options =', arguments);
                     }
                 });
             }

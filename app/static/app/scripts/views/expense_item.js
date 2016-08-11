@@ -18,6 +18,7 @@
             this.$el.html(this.template(this.model.toJSON()));
         },
         on_remove_from_collection: function (model) {
+            alert('43285 TODO Delete this method????');
             console.log('remove from collection', model);
         },
         on_item_click: function (ev) {

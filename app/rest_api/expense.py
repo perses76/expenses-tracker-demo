@@ -55,6 +55,7 @@ class ExpenseResource(resource.Resource):
 
     @resource.user_authentication_required
     def post(self, request):
+        # raise Exception('WTF')
         data = json.loads(request.body)
         user_id = request.user.id
         if 'user_id' in data:

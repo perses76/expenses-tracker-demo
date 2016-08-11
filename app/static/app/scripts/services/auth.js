@@ -2,7 +2,6 @@ define(['jquery', 'backbone', 'models/user'],
     function ($, BB, User) {
     return BB.View.extend ({
         login: function (email, password, options) {
-            alert('Start login process');
             var data = { email: email, password: password },
                 view = this
                 url='/api/login';
@@ -11,7 +10,6 @@ define(['jquery', 'backbone', 'models/user'],
                 data: data,
                 method: 'POST',
                 success: function (data) {
-                    console.log('data=', data)
                     if (data.status == 200) {
                         options.success(new User(data.user));
                         return;
@@ -22,7 +20,8 @@ define(['jquery', 'backbone', 'models/user'],
                     }
                 },
                 error: function () {
-                    alert('Login service Error');
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
         },
@@ -35,7 +34,8 @@ define(['jquery', 'backbone', 'models/user'],
                     return;
                 },
                 error: function () {
-                    alert('Login service Error');
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
 
@@ -49,7 +49,8 @@ define(['jquery', 'backbone', 'models/user'],
                     return;
                 },
                 error: function () {
-                    alert('Logout service Error');
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
 

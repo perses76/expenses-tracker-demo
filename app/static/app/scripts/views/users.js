@@ -1,4 +1,5 @@
 define([
+    'models/app',
     'underscore',
     'jquery',
     'backbone',
@@ -7,7 +8,7 @@ define([
     'text!templates/users.html',
     'views/user_item_edit',
     ],
-    function (_, $, BB, UserListView, UserCollection, template_str, UserItemEditView) {
+    function (app, _, $, BB, UserListView, UserCollection, template_str, UserItemEditView) {
      return BB.View.extend({
         template: _.template(template_str),
         events: {
@@ -44,11 +45,13 @@ define([
             }
             save_method({
                 success: function (model) {
-                    alert('New user ' + model.get('email') + 'was created successfully. You can loging now!');
+                    app.window.alert('The record was successfully saved!')
+                    alert('00022 New user ' + model.get('email') + 'was created successfully. You can loging now!');
                     edit_view.remove();
                 },
                 error: function (model, response, options) {
-                    edit_view.show_error(response.responseText);
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             });
         },
@@ -61,10 +64,10 @@ define([
                     items.each(function (item) {
                         view.user_list_view.collection.add(item);
                     });
-                    console.log(items);
                 },
                 error: function () {
-                    alert('Error!');
+                    app.window.alert('Operation error. Please look console for more info');
+                    console.log('model, response, options =', arguments);
                 }
             })
         },
@@ -72,7 +75,6 @@ define([
             this.$el.html(this.template());
             this.$('#user_list').append(this.user_list_view.$el);
             this.user_list_view.render();
-            console.log('btn', this.$('.add_new_btn'));
 
             // this.$('#expense_item_edit').append(this.expense_item_edit.$el);
             // this.expense_item_edit.render();
