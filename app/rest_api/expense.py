@@ -76,7 +76,7 @@ class ExpenseResource(resource.Resource):
     @resource.user_authentication_required
     def put(self, request, id):
         data = json.loads(request.body)
-        item = Expense.objects.get(id=id, user=request.user)
+        item = Expense.objects.get(id=id)
         check_permission(request.user, item)
         item.amount = Decimal(data['amount'])
         item.description = data['description']

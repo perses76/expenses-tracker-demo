@@ -22,7 +22,8 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
                     edit_view.remove();
                 },
                 error: function (model, response, options) {
-                    app.window.alert('Operation error. Please look console for more info');
+                    edit_view.show_error(response.responseText);
+                    // app.window.alert('Operation error. Please look console for more info');
                     console.log('model, response, options =', arguments);
                 }
             });

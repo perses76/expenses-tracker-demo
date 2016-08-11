@@ -4,7 +4,9 @@
         model: User,
         create_new: function () {
             var user = new User();
-            user.url = this.url;
+            var col = new BB.Collection(null);
+            col.url = this.url;
+            col.add(user);
             return user;
         }
     });

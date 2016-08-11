@@ -15,6 +15,12 @@ define([
             'click #logout_btn': 'on_login_click',
             'click #expenses_btn': 'on_expenses_click',
             'click #users_btn': 'on_users_click',
+            'click .current_user': 'on_current_user_click',
+        },
+        on_current_user_click: function (env) {
+            env.preventDefault();
+            var edit_user = new UserItemEditView({ model: app.user });
+            edit_user.render();
         },
         on_login_click: function () {
             this.trigger('logout');
