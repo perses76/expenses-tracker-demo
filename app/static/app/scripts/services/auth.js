@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'models/user'],
-    function ($, BB, User) {
+define(['jquery', 'backbone', 'collections/user', 'models/user'],
+    function ($, BB, UserCollection, User) {
     return BB.View.extend ({
         login: function (email, password, options) {
             var data = { email: email, password: password },
@@ -11,7 +11,10 @@ define(['jquery', 'backbone', 'models/user'],
                 method: 'POST',
                 success: function (data) {
                     if (data.status == 200) {
-                        options.success(new User(data.user));
+                        var col = new UserCollection(),
+                            user =  new User(data.user);
+                        col.add(user);
+                        options.success(user);
                         return;
                     }
                     if (data.status == 400) {
@@ -30,7 +33,10 @@ define(['jquery', 'backbone', 'models/user'],
             BB.ajax(url, {
                 method: 'GET',
                 success: function (data) {
-                    options.success(new User(data.user));
+                    var col = new UserCollection(),
+                        user =  new User(data.user);
+                    col.add(user);
+                    options.success(user);
                     return;
                 },
                 error: function () {
