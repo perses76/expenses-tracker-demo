@@ -1,4 +1,6 @@
 ﻿from django import http
+from django.core.handlers.wsgi import WSGIRequest
+
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -13,10 +15,13 @@ class UserNotAuthorized(Exception):
 
 
 def user_authentication_required(func):
-    def request_handler(self, request, *args, **kwargs):
+    def request_handler(*args, **kwargs):
+        request = args[0]
+        if not isinstance(request, WSGIRequest):
+            request = args[1]
         if not request.user.is_authenticated():
             return  http.HttpResponseForbidden('You are not authenticated for this request')
-        return func(self, request, *args, **kwargs)
+        return func(*args, **kwargs)
     return request_handler
 
 

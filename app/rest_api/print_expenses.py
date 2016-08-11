@@ -14,7 +14,7 @@ def are_dates_equal(dt1, dt2):
     return dt1.isocalendar()[1] == dt2.isocalendar()[1]
 
 
-# @resource.user_authentication_required
+@resource.user_authentication_required
 def print_expenses(request):
     qs = get_expenses_query_set(request)
     expenses = qs.order_by('transaction_dt')
