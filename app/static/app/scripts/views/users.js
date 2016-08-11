@@ -46,7 +46,6 @@ define([
             save_method({
                 success: function (model) {
                     app.window.alert('The record was successfully saved!')
-                    alert('00022 New user ' + model.get('email') + 'was created successfully. You can loging now!');
                     edit_view.remove();
                 },
                 error: function (model, response, options) {

@@ -1,4 +1,4 @@
-﻿define(['backbone', 'templates/user_item'], function (BB, template) {
+﻿define(['models/app', 'backbone', 'templates/user_item'], function (app, BB, template) {
      return BB.View.extend({
         template: template,
         tagName: 'tr',
@@ -19,8 +19,10 @@
         on_delete_click: function (ev) {
             ev.preventDefault();
             ev.stopImmediatePropagation();
-            this.model.destroy();
-            this.remove();
+            if (app.window.confirm('The record wil be deleted permanently! \n Are you sure?')) {
+                this.model.destroy();
+                this.remove();
+            }
         },
         on_current_item_change: function (data) {
             var current_item = data.get('current_item');

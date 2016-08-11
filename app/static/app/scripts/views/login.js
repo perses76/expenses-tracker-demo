@@ -18,7 +18,7 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
         on_do_save_item: function(model, edit_view) {
             model.save([], {
                 success: function (model) {
-                    app.window.alert('The record was successfully saved!')
+                    app.window.alert('New user ' + model.get('email') + 'was created successfully. You can loging now!');
                     edit_view.remove();
                 },
                 error: function (model, response, options) {
