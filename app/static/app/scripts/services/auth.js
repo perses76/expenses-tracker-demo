@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'collections/user', 'models/user'],
-    function ($, BB, UserCollection, User) {
+define(['jquery', 'backbone', 'collections/user', 'models/user', 'models/app'],
+    function ($, BB, UserCollection, User, app) {
     return BB.View.extend ({
         login: function (email, password, options) {
             var data = { email: email, password: password },

@@ -2,9 +2,9 @@ define(['backbone'], function (BB) {
     return BB.Model.extend({
         defaults: {
             id: null,
-            email: 'test@test.com',
-            first_name: 'first_test',
-            last_name: 'last_test',
+            email: '',
+            first_name: '',
+            last_name: '',
             password: null,
             role: 'regular'
         },
