@@ -39,16 +39,6 @@
                 this.init_data();
             }
         },
-        logout: function () {
-            var auth = new Auth(),
-                view=this;
-            auth.logout({
-                success: function (user) {
-                    view.data.set({ status: 'zero' });
-                    app.logout();
-                }
-            });
-        },
         init_data: function () {
             var auth = new Auth(),
                 view=this;
