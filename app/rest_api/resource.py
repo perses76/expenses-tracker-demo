@@ -36,7 +36,5 @@ class Resource(View):
             return http.HttpResponseForbidden(str(e))
         except InputDataError as e:
             return http.HttpResponseBadRequest(str(e))
-        except IOError as e:
-            if not settings.DEBUG:
-                raise
+        except Exception as e:
             return http.HttpResponseServerError(str(e))

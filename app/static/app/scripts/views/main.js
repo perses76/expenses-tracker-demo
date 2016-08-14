@@ -20,22 +20,6 @@
             // this.login_view = new LoginView();
             app.on('change:user', this.render, this);
         },
-        ajax: function (settings) {
-            var original_error = settings.error
-            var view = this;
-            settings.error = function (jqXHR, textStatus, errorThrown) {
-                var title = jqXHR.status + jqXHR.statusText,
-                    message = jqXHR.responseText;
-                view.show_error_message({ title: errorThrown, message: message});
-                return original_error(arguments);
-            }
-            return BB.$.ajax.apply(Backbone.$, arguments);
-        },
-        show_error_message: function (options) {
-            var error_message = new ErrorMessageView();
-            this.$el.append(error_message.$el);
-            error_message.show(options)
-        },
         render: function () {
             var view = this;
             if (this.data.get('status') == 'data_is_initialized') {
