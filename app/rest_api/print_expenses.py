@@ -61,4 +61,4 @@ def print_expenses(request):
         'app/print_expenses.html',
         {'groups': groups, 'user': user}
     )
-    return http.HttpResponse(content, status=200)
+

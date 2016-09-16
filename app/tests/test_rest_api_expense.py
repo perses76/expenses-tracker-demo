@@ -69,7 +69,7 @@ class RestApiExpeneseTestCase(TestCase):
 
         # check that response contain data of new created record
         expected_data = data.copy()
-        expected_data[u'id'] = item.id
+        expected_data['id'] = item.id
         result_data = json.loads(response.content)
 
         self.assertEqual(result_data, expected_data)
