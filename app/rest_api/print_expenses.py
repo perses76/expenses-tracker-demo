@@ -22,6 +22,7 @@ def get_group_caption(dt):
     year, week, weekday = dt.isocalendar()
     return '{week} week, {year}'.format(year=year, week=week)
 
+
 @resource.user_authentication_required
 def print_expenses(request):
     qs = get_expenses_query_set(request)

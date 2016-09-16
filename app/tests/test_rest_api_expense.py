@@ -51,8 +51,12 @@ class RestApiExpeneseTestCase(TestCase):
             'transaction_dt': '2016-08-06T15:48:33Z'
         }
         url = reverse('expense_item', kwargs={'id': ''})
-        response = self.client.post(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
+        response = self.client.post(
+            url,
+            content_type='text/json',
+            data=json.dumps(data),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
 
         # check if record is saved in DB
         transaction_dt = datetime.datetime(2016, 8, 6, 15, 48, 33, tzinfo=UTC())
@@ -88,8 +92,12 @@ class RestApiExpeneseTestCase(TestCase):
             'transaction_dt': '2016-08-07T15:48:33Z'
         }
         url = reverse('expense_item', kwargs={'id': item.id})
-        response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
+        response = self.client.put(
+            url,
+            content_type='text/json',
+            data=json.dumps(data),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
 
         # check if record is saved in DB
         transaction_dt = datetime.datetime(2016, 8, 7, 15, 48, 33, tzinfo=UTC())
@@ -114,7 +122,6 @@ class RestApiExpeneseTestCase(TestCase):
         )
         item.save()
         item = Expense.objects.get(id=item.id)
-
 
         url = reverse('expense_item', kwargs={'id': item.id})
         response = self.client.delete(url, content_type='text/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')

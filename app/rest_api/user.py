@@ -35,7 +35,6 @@ class UserResource(resource.Resource):
     @resource.user_authentication_required
     def get(self, request, id=None):
         role = get_user_role(request.user)
-        # return http.HttpResponseForbidden('Role={}, user_id={}, is_superuser={}'.format(role, request.user.id, request.user.is_superuser))
 
         if role == 'regular':
             raise resource.UserNotAuthorized('Regular user does not have access to user REST API')

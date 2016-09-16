@@ -32,6 +32,7 @@ def get_expenses_query_set(request):
         qs = qs.filter(user=current_user)
     return qs
 
+
 def check_permission(user, expense):
     if user.is_superuser:
         return True
@@ -61,10 +62,10 @@ class ExpenseResource(resource.Resource):
         if 'user_id' in data:
             user_id = long(data['user_id'])
         item = Expense(
-            amount = Decimal(data['amount']),
-            description = data['description'],
-            comment = data['comment'],
-            transaction_dt = parser.parse(data['transaction_dt']),
+            amount=Decimal(data['amount']),
+            description=data['description'],
+            comment=data['comment'],
+            transaction_dt=parser.parse(data['transaction_dt']),
             user_id=user_id
         )
         check_permission(request.user, item)

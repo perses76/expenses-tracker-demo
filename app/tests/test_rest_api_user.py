@@ -45,8 +45,12 @@ class RestApiUserTestCase(TestCase):
             'password': '12345',
         }
         url = reverse('rest_api_user_item', kwargs={'id': ''})
-        response = self.client.post(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
+        response = self.client.post(
+            url,
+            content_type='text/json',
+            data=json.dumps(data),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
 
         # check if record is saved in DB
         item = User.objects.get(email='new@test.com')
@@ -79,7 +83,12 @@ class RestApiUserTestCase(TestCase):
             'role': 'manager',
         }
         url = reverse('rest_api_user_item', kwargs={'id': item.id})
-        response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.put(
+            url,
+            content_type='text/json',
+            data=json.dumps(data),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
 
         # check if record is saved in DB
         item = User.objects.get(id=item.id)
@@ -112,7 +121,12 @@ class RestApiUserTestCase(TestCase):
             'password': '54321',
         }
         url = reverse('rest_api_user_item', kwargs={'id': item.id})
-        response = self.client.put(url, content_type='text/json', data=json.dumps(data), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.put(
+            url,
+            content_type='text/json',
+            data=json.dumps(data),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
 
         # check if record is saved in DB
         item = User.objects.get(id=item.id)
@@ -130,7 +144,6 @@ class RestApiUserTestCase(TestCase):
         }
         url = reverse('rest_api_user_item', kwargs={'id': item.id})
         response = self.client.delete(url, content_type='text/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
 
         # check if record is saved in DB
         try:

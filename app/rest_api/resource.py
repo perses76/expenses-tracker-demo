@@ -20,7 +20,7 @@ def user_authentication_required(func):
         if not isinstance(request, WSGIRequest):
             request = args[1]
         if not request.user.is_authenticated():
-            return  http.HttpResponseForbidden('You are not authenticated for this request')
+            return http.HttpResponseForbidden('You are not authenticated for this request')
         # raise Exception('args={}, kwargs={}'.format(args, kwargs))
         return func(*args, **kwargs)
     return request_handler

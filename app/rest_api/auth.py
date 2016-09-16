@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from app.serializers import user_to_dict
 
 
-
 @csrf_exempt
 def login(request):
     email = request.POST['email']
@@ -52,5 +51,3 @@ def auth(request):
 def logout(request):
     django_logout(request)
     return HttpResponse('{"status": 200}', content_type='application/json', status=200)
-
-    
