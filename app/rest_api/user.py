@@ -1,9 +1,7 @@
-from decimal import Decimal
 import json
 from django import http
 from django.core.serializers.json import DjangoJSONEncoder
 import resource
-from dateutil import parser
 from django.contrib.auth import get_user_model
 from ..serializers import user_to_dict
 from app.utils import get_user_role
@@ -49,7 +47,7 @@ class UserResource(resource.Resource):
         return http.HttpResponse(items_json, content_type='application/json', status=200)
 
     def post(self, request):
-        role = get_user_role(request.user)
+        get_user_role(request.user)
         data = json.loads(request.body)
         self.validate(data)
         check_post_permission(request.user, data)

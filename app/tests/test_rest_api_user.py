@@ -1,11 +1,7 @@
 ﻿import json
-import datetime
-from decimal import Decimal
-from django.core.serializers.json import DjangoJSONEncoder
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from app.serializers import user_to_dict
-from app.utils import UTC
 from django.contrib.auth import get_user_model
 
 
@@ -121,7 +117,7 @@ class RestApiUserTestCase(TestCase):
             'password': '54321',
         }
         url = reverse('rest_api_user_item', kwargs={'id': item.id})
-        response = self.client.put(
+        self.client.put(
             url,
             content_type='text/json',
             data=json.dumps(data),

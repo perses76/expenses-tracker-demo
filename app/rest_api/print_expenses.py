@@ -1,9 +1,3 @@
-from decimal import Decimal
-import json
-from django import http
-from django.core.serializers.json import DjangoJSONEncoder
-import resource
-from dateutil import parser
 from expense import get_expenses_query_set
 from django.shortcuts import render
 from django.contrib.auth import get_user_model

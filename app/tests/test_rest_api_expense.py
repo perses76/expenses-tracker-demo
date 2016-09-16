@@ -108,9 +108,9 @@ class RestApiExpeneseTestCase(TestCase):
         self.assertEqual(item.comment, 'com2')
         self.assertEqual(item.transaction_dt, transaction_dt)
 
-        # check that response contain data of new created record
-        expected_data = data.copy()
-        result_data = json.loads(response.content)
+        # TODO check that response contain data of new created record
+        # expected_data = data.copy()
+        # result_data = json.loads(response.content)
 
     def test_delete(self):
         from django.core.exceptions import ObjectDoesNotExist
@@ -130,7 +130,7 @@ class RestApiExpeneseTestCase(TestCase):
         self.assertEqual(response.content, data)
 
         try:
-            item = Expense.objects.get(id=item.id)
+            Expense.objects.get(id=item.id)
             self.fail('Item must not exists')
         except ObjectDoesNotExist:
             pass

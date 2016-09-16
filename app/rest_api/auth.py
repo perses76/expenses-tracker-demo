@@ -1,6 +1,5 @@
 import json
 from django.http import HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.views.decorators.csrf import csrf_exempt
 from app.serializers import user_to_dict

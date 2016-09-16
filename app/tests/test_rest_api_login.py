@@ -1,10 +1,6 @@
 ﻿import json
-import datetime
-from decimal import Decimal
-from django.core.serializers.json import DjangoJSONEncoder
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-# from app.models import User
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
