@@ -17,7 +17,7 @@ def get_expenses_query_set(request):
         qs = qs.filter(description__contains=request.GET['q'])
     current_user = request.user
     if 'user' in request.GET:
-        user_id = long(request.GET['user'])
+        user_id = int(request.GET['user'])
         user = User.objects.get(id=user_id)
         if user.id == current_user.id or current_user.is_superuser:
             qs = qs.filter(user=user)
@@ -60,7 +60,7 @@ class ExpenseResource(resource.Resource):
         data = json.loads(request.body)
         user_id = request.user.id
         if 'user_id' in data:
-            user_id = long(data['user_id'])
+            user_id = int(data['user_id'])
         item = Expense(
             amount=Decimal(data['amount']),
             description=data['description'],

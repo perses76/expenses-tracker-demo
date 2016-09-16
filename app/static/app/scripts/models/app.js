@@ -13,6 +13,6 @@ define(['backbone', 'models/user'], function (BB, User) {
         }
     });
     return new App({
-        user: new User(),
+        user: new User()
     });
 });
