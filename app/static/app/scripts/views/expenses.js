@@ -59,7 +59,7 @@
             }
             model.save([], {
                 success: function (model) {
-                    app.window.alert('The record was successfully saved!')
+                    app.window.alert('The record was successfully saved!');
                     view.expense_list_view.add_item(model);
                     view.expense_item_edit.reset();
                 },

@@ -7,9 +7,8 @@
 '<button type="button" class="close delete_btn" aria-label="Delete"><span aria-hidden="true">&times;</span></button>' +
 '</td>');
 
-    var render = function (data) {
+    return function (data) {
         data = _.extend(data, formatters);
         return template(data)
-    }
-    return render;
+    };
 });

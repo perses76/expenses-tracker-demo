@@ -69,4 +69,4 @@ define(['models/app', 'underscore', 'backbone', 'text!templates/login.html', 'se
             return result
         }
     });
-})
+});

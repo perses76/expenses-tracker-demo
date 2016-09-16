@@ -8,7 +8,7 @@
             'click .delete_btn': 'on_delete_click',
         },
         initialize: function() {
-            this.model.on('change', this.render, this)
+            this.model.on('change', this.render, this);
             this.model.on('remove', this.on_model_remove, this)
         },
         on_model_remove: function (model) {

@@ -25,7 +25,7 @@ define([
             edit_user.on('save_item', function (model, edit_view) {
                 model.save(null, {
                     success: function (model) {
-                        app.window.alert('The record was successfully saved!')
+                        app.window.alert('The record was successfully saved!');
                         edit_view.remove();
                     },
                     error: function (model, response, options) {

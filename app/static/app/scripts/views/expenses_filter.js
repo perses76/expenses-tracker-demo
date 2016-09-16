@@ -13,7 +13,7 @@ define([
             'submit form': 'on_apply_filter',
         },
         on_apply_filter: function ( env ) {
-            env.preventDefault()
+            env.preventDefault();
             this.model.set(this.get_filter_data());
         },
         get_filter_data: function () {
@@ -26,7 +26,7 @@ define([
             var user = app.get('user');
             var data = {
                 is_admin: (user.get('role') == 'admin')
-            }
+            };
             this.$el.html(this.template(data));
             var role_input = this.$('.role_input');
             role_input.append('<option value="' + user.id + '">' + user.get('first_name') + ' ' + user.get('last_name') + '</option>');

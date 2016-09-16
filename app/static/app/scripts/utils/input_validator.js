@@ -9,7 +9,7 @@ define(['underscore'], function (_) {
             return false
         }
         return true;
-    }
+    };
 
     var validators = {
         is_required: function (txt) { return /[^\s]+/.test(txt);},
@@ -30,8 +30,8 @@ define(['underscore'], function (_) {
             yy = parseInt(ar_date[2]);
             mm = parseInt(ar_date[1]);
             dd = parseInt(ar_date[0]);
-            hh = parseInt(ar_time[0])
-            mn = parseInt(ar_time[2])
+            hh = parseInt(ar_time[0]);
+            mn = parseInt(ar_time[2]);
             if (yy < 1900 || yy > 2100) return false;
             if (mm < 1 || mm > 12) return false;
             if (dd < 1 || dd > 31) return false;
@@ -39,7 +39,7 @@ define(['underscore'], function (_) {
             if (mn < 0 || mn > 59) return false;
             return true;
         }
-    }
+    };
 
     var get_validator = function (rule) {
         if (rule.reg_exp != undefined) {
@@ -48,7 +48,7 @@ define(['underscore'], function (_) {
             }
         }
         return validators[rule.check];
-    }
+    };
 
     return {
         validate: function (rules, view) {

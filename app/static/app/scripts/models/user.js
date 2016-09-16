@@ -15,4 +15,4 @@ define(['backbone'], function (BB) {
             return this.first_name + ' ' + this.last_name;
         }
     });
-})
+});

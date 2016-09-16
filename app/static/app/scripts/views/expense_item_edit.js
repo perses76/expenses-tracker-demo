@@ -39,7 +39,7 @@
             ev.preventDefault();
             // this.clearErrors();
             // this.readData();
-            if (!this.validate_data()) return
+            if (!this.validate_data()) return;
             this.update_model();
             this.trigger('save_item', this.model);
         },
@@ -49,10 +49,8 @@
                 { ctrl: '#amount_input', msg_ctrl: '#amount_input_error', check: 'is_decimal' },
                 { ctrl: '#transaction_dt_input', msg_ctrl: '#transaction_dt_input_error', check: 'is_required' },
                 { ctrl: '#transaction_dt_input', msg_ctrl: '#transaction_dt_input_error', check: 'is_datetime' },
-            ]
-            var result = validator.validate(rules, this);
-            return result;
-
+            ];
+            return validator.validate(rules, this);
         },
         update_model: function () {
             var data = {
@@ -60,8 +58,8 @@
                 description: this.$('#description_input').val(),
                 comment: this.$('#comment_input').val(),
                 transaction_dt: formatters.parse_datetime(this.$('#transaction_dt_input').val()),
-            }
+            };
             this.model.set(data);
         },
     });
-})
+});

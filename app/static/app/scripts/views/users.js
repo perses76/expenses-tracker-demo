@@ -45,7 +45,7 @@ define([
             }
             save_method({
                 success: function (model) {
-                    app.window.alert('The record was successfully saved!')
+                    app.window.alert('The record was successfully saved!');
                     edit_view.remove();
                 },
                 error: function (model, response, options) {

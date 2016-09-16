@@ -3,7 +3,7 @@ define(['jquery', 'backbone', 'collections/user', 'models/user', 'models/app'],
     return BB.View.extend ({
         login: function (email, password, options) {
             var data = { email: email, password: password },
-                view = this
+                view = this;
                 url='/api/login';
             options = _.extend({ success: function () { }, fail: function () { } }, options);
             BB.ajax(url, {
@@ -21,6 +21,7 @@ define(['jquery', 'backbone', 'collections/user', 'models/user', 'models/app'],
                         options.fail(data.status, data.message);
                         return;
                     }
+                    throw 'No handler for status: ' + data.status;
                 },
                 error: function () {
                     app.window.alert('Operation error. Please look console for more info');
@@ -37,7 +38,6 @@ define(['jquery', 'backbone', 'collections/user', 'models/user', 'models/app'],
                         user =  new User(data.user);
                     col.add(user);
                     options.success(user);
-                    return;
                 },
                 error: function () {
                     app.window.alert('Operation error. Please look console for more info');
@@ -52,7 +52,6 @@ define(['jquery', 'backbone', 'collections/user', 'models/user', 'models/app'],
                 method: 'GET',
                 success: function () {
                     options.success();
-                    return;
                 },
                 error: function () {
                     app.window.alert('Operation error. Please look console for more info');

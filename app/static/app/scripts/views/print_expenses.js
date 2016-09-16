@@ -15,7 +15,7 @@ define([
             $iframe.hide();
             this.$el.append($iframe);
             window.frames['print_expenses'].print();
-            return;
+            return this.$el;
         },
     });
 });

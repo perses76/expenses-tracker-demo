@@ -50,7 +50,7 @@
                 { ctrl: '#email_input', msg_ctrl: '#email_input_error', check: 'is_email' },
                 { ctrl: '#first_name_input', msg_ctrl: '#first_name_input_error', check: 'is_required' },
                 { ctrl: '#last_name_input', msg_ctrl: '#last_name_input_error', check: 'is_required' },
-            ]
+            ];
 
             if (this.model.isNew()) {
                 rules.push(
@@ -83,7 +83,7 @@
                 first_name: this.$('#first_name_input').val(),
                 last_name: this.$('#last_name_input').val(),
                 role: 'regular',
-            }
+            };
             if (this.$('#role_input').length > 0) {
                 data.role = this.$('#role_input').val();
             }
@@ -98,4 +98,4 @@
             this.$('.modal').modal('hide');
         }
     });
-})
+});

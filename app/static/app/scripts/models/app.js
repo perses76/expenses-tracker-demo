@@ -11,10 +11,8 @@ define(['backbone', 'models/user'], function (BB, User) {
                 return confirm(txt);
             }
         }
-    })
-    var app = new App({
+    });
+    return new App({
         user: new User(),
     });
-
-    return app;
-})
+});
