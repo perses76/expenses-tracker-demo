@@ -3,22 +3,21 @@
     'jquery',
     'backbone',
     'views/dashboard',
-    'views/error_message',
     'models/app',
     'views/login',
     'services/auth',
     'text!templates/main.html',
     ],
-    function (_, $, BB, Dashboard, ErrorMessageView, app, LoginView, Auth, template_str) {
+    function (_, $, BB, Dashboard, app, LoginView, Auth, template_str) {
     var MainView = BB.View.extend({
         el: $('#app_main'),
         template: _.template(template_str),
         data: new BB.Model({status: 'zero'}),
         initialize: function() {
-            // BB.ajax = _.bind(this.ajax, this);
-            // this.expenses_view = new ExpensesView();
-            // this.login_view = new LoginView();
-            app.on('change:user', this.render, this);
+            app.on('change:user', this.on_user_changed, this);
+        },
+        on_user_changed: function () {
+            this.render();
         },
         render: function () {
             var view = this;

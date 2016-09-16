@@ -1,6 +1,6 @@
 # Expenses tracker test project
 
-### Write a simple expenses tracker application
+### Requirements
 
 * The user must be able to create an account and log in.
 * When logged in, user can see, edit and delete expenses he entered.
